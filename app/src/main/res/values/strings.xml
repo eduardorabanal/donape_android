@@ -10,6 +10,8 @@
     <string name="error_invalid_email">El email es inválido</string>
     <string name="error_invalid_password">La contraseña es muy corta</string>
     <string name="error_incorrect_password">La contraseña es incorrecta</string>
+    <string name="error_failed_login">Usuario o contraseña incorrectos</string>
+    <string name="error_internet">Error al acceder a la red</string>
     <string name="error_field_required">El campo es requerido</string>
     <string name="permission_rationale">"El permiso de contactos es necesario para el autocompletado de emails."
     </string>
