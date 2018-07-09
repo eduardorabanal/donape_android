@@ -17,6 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.edurabroj.donape.data.PreferencesData.TOKEN_KEY;
+import static com.edurabroj.donape.utils.PreferencesUtils.getStringPreference;
+
 public class MainActivity extends AppCompatActivity {
     RecyclerView rvList;
     SolicitudesAdapter adapter;
@@ -35,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarLista() {
-        ServiceProvider.getService().ObtenerPartidos().enqueue(new Callback<List<Solicitud>>() {
+        String token = getStringPreference(this,TOKEN_KEY);
+        ServiceProvider.getService().ObtenerSolicitudes("Bearer "+token).enqueue(new Callback<List<Solicitud>>() {
             @Override
             public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
                 if(response.isSuccessful()){
