@@ -1,5 +1,6 @@
 package com.edurabroj.donape.actividades;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import static com.edurabroj.donape.data.PreferencesData.TOKEN_KEY;
 import static com.edurabroj.donape.utils.PreferencesUtils.getStringPreference;
 
 public class MainActivity extends AppCompatActivity {
+    SwipeRefreshLayout refreshLayout;
     RecyclerView rvList;
     SolicitudesAdapter adapter;
 
@@ -29,19 +31,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        refreshLayout = findViewById(R.id.refresh);
         rvList = findViewById(R.id.rvList);
         rvList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SolicitudesAdapter(this);
         rvList.setAdapter(adapter);
 
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarLista();
+            }
+        });
+
         cargarLista();
     }
 
     private void cargarLista() {
+        refreshLayout.setRefreshing(true);
         String token = getStringPreference(this,TOKEN_KEY);
         ServiceProvider.getService().ObtenerSolicitudes("Bearer "+token).enqueue(new Callback<List<Solicitud>>() {
             @Override
             public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
+                refreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
                     adapter.setDataset(response.body());
                 }else {
@@ -51,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Solicitud>> call, Throwable t) {
+                refreshLayout.setRefreshing(false);
                 showMsg(t.getMessage());
             }
         });
