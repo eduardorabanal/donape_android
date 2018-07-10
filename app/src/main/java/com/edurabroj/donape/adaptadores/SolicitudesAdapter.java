@@ -1,16 +1,19 @@
 package com.edurabroj.donape.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.actividades.NecesidadDetailsActivity;
 import com.edurabroj.donape.entidades.Solicitud;
 
 import java.util.ArrayList;
@@ -52,12 +55,14 @@ public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter
     public class VH extends RecyclerView.ViewHolder {
         ImageView ivImg;
         TextView tvTitulo, tvDescripcion;
+        Button btnDetalle;
 
         private VH(View itemView) {
             super(itemView);
             ivImg = itemView.findViewById(R.id.ivImg);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
+            btnDetalle = itemView.findViewById(R.id.btnDetalle);
         }
 
         public void setData(final Solicitud solicitud) {
@@ -66,6 +71,12 @@ public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter
             }
             tvTitulo.setText(solicitud.getTitle());
             tvDescripcion.setText(solicitud.getDescription());
+            btnDetalle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, NecesidadDetailsActivity.class));
+                }
+            });
         }
     }
 
