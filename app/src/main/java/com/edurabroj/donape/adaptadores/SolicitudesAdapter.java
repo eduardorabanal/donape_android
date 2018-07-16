@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.actividades.NecesidadDetailsActivity;
 import com.edurabroj.donape.entidades.Solicitud;
@@ -67,7 +68,11 @@ public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter
 
         public void setData(final Solicitud solicitud) {
             if(solicitud.getImages().size()>0){
-                Glide.with(context).load(solicitud.getImages().get(0)).into(ivImg);
+                Glide.with(context)
+                        .load(solicitud.getImages().get(0))
+                        .thumbnail(0.1f)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(ivImg);
             }
             tvTitulo.setText(solicitud.getTitle());
             tvDescripcion.setText(solicitud.getDescription());
