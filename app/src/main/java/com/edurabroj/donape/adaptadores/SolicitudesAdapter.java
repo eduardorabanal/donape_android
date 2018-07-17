@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.edurabroj.donape.data.ExtrasData.EXTRA_NECESIDAD_ID;
+import static com.edurabroj.donape.utils.GuiUtils.loadImage;
 
 public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter.VH> {
     private List<Solicitud> dataset;
@@ -70,11 +71,7 @@ public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter
 
         public void setData(final Solicitud solicitud) {
             if(solicitud.getImages().size()>0){
-                Glide.with(context)
-                        .load(solicitud.getImages().get(0))
-                        .thumbnail(0.1f)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(ivImg);
+                loadImage(context,solicitud.getImages().get(0),ivImg);
             }
             tvTitulo.setText(solicitud.getTitle());
             tvDescripcion.setText(solicitud.getDescription());
