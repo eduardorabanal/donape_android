@@ -20,6 +20,8 @@ import com.edurabroj.donape.entidades.Solicitud;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.edurabroj.donape.data.ExtrasData.EXTRA_NECESIDAD_ID;
+
 public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter.VH> {
     private List<Solicitud> dataset;
     private View.OnClickListener clickListener;
@@ -79,7 +81,10 @@ public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter
             btnDetalle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(new Intent(context, NecesidadDetailsActivity.class));
+                    context.startActivity(
+                        new Intent(context, NecesidadDetailsActivity.class)
+                            .putExtra(EXTRA_NECESIDAD_ID,solicitud.get_id())
+                    );
                 }
             });
         }

@@ -11,10 +11,14 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface IService {
     @GET("request")
     Call<List<Solicitud>> ObtenerSolicitudes(@Header("Authorization") String authToken);
+
+    @GET("request/{id}")
+    Call<Solicitud> ObtenerSolicitudById(@Header("Authorization") String authToken, @Path("id") String id);
 
     @POST("login")
     @FormUrlEncoded

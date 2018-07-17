@@ -19,6 +19,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.edurabroj.donape.data.PreferencesData.TOKEN_KEY;
+import static com.edurabroj.donape.data.PreferencesData.TOKEN_PREV;
+import static com.edurabroj.donape.utils.GuiUtils.showMsg;
 import static com.edurabroj.donape.utils.PreferencesUtils.getStringPreference;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,28 +52,22 @@ public class MainActivity extends AppCompatActivity {
     private void cargarLista() {
         refreshLayout.setRefreshing(true);
         String token = getStringPreference(this,TOKEN_KEY);
-        ServiceProvider.getService().ObtenerSolicitudes("Bearer "+token).enqueue(new Callback<List<Solicitud>>() {
+        ServiceProvider.getService().ObtenerSolicitudes(TOKEN_PREV +token).enqueue(new Callback<List<Solicitud>>() {
             @Override
             public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
                 refreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
                     adapter.setDataset(response.body());
                 }else {
-                    showMsg(response.message());
+                    showMsg(MainActivity.this,response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Solicitud>> call, Throwable t) {
                 refreshLayout.setRefreshing(false);
-                showMsg(t.getMessage());
+                showMsg(MainActivity.this,t.getMessage());
             }
         });
     }
-
-    private void showMsg(String message) {
-        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
-    }
-
-
 }
