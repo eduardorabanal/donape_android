@@ -3,22 +3,19 @@ package com.edurabroj.donape.actividades;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,15 +25,16 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.entidades.LoginRespuesta;
 import com.edurabroj.donape.servicio.IService;
 import com.edurabroj.donape.servicio.ServiceProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +43,7 @@ import retrofit2.Response;
 import static android.Manifest.permission.READ_CONTACTS;
 import static com.edurabroj.donape.data.PreferencesData.EMAIL_KEY;
 import static com.edurabroj.donape.data.PreferencesData.TOKEN_KEY;
+import static com.edurabroj.donape.utils.GuiUtils.getAnimation;
 import static com.edurabroj.donape.utils.PreferencesUtils.setStringPreference;
 
 /**
@@ -52,6 +51,7 @@ import static com.edurabroj.donape.utils.PreferencesUtils.setStringPreference;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     IService apiService;
+    ImageView ivLogo;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -86,7 +86,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+        ivLogo = findViewById(R.id.ivLogo);
         Button mEmailSignInButton = findViewById(R.id.email_sign_in_button);
+
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +99,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        ivLogo.startAnimation(getAnimation(this,R.anim.item_animation_fall_down,getResources().getInteger(R.integer.animation_duration_medium)));
+        mLoginFormView.startAnimation(getAnimation(this,R.anim.item_animation_fade_in,getResources().getInteger(R.integer.animation_duration_medium)));
     }
 
     private void populateAutoComplete() {

@@ -1,6 +1,8 @@
 package com.edurabroj.donape.utils;
 
 import android.content.Context;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,5 +20,11 @@ public class GuiUtils {
                 .thumbnail(0.1f)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
+    }
+
+    public static Animation getAnimation(Context context, int animId, int duration){
+        Animation animacion = AnimationUtils.loadAnimation(context,animId);
+        animacion.setDuration(duration);
+        return animacion;
     }
 }
