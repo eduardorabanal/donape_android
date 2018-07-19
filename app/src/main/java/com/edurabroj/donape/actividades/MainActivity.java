@@ -1,11 +1,11 @@
 package com.edurabroj.donape.actividades;
 
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
+import android.view.animation.AnimationUtils;
 
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.adaptadores.SolicitudesAdapter;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         refreshLayout = findViewById(R.id.refresh);
         rvList = findViewById(R.id.rvList);
         rvList.setLayoutManager(new LinearLayoutManager(this));
+        rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
         adapter = new SolicitudesAdapter(this);
         rvList.setAdapter(adapter);
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 refreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
                     adapter.setDataset(response.body());
+                    rvList.scheduleLayoutAnimation();
                 }else {
                     showMsg(MainActivity.this,response.message());
                 }
