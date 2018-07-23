@@ -1,4 +1,4 @@
-package com.edurabroj.donape.actividades;
+package com.edurabroj.donape.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.actividades.MainActivity;
 import com.edurabroj.donape.entidades.LoginRespuesta;
 import com.edurabroj.donape.servicio.IService;
 import com.edurabroj.donape.servicio.ServiceProvider;
