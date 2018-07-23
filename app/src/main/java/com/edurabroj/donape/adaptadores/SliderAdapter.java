@@ -49,12 +49,6 @@ public class SliderAdapter extends PagerAdapter {
         return view;
     }
 
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        //super.destroyItem(container, position, object);
-        container.invalidate();
-    }
-
     public void setImages(List<String> images) {
         this.images = images;
         notifyDataSetChanged();
