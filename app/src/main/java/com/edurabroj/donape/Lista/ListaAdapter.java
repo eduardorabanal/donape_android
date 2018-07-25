@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.actividades.NecesidadDetailsActivity;
+import com.edurabroj.donape.Detalle.DetalleActivity;
 import com.edurabroj.donape.entidades.Solicitud;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
-                        new Intent(context, NecesidadDetailsActivity.class)
+                        new Intent(context, DetalleActivity.class)
                             .putExtra(EXTRA_NECESIDAD_ID,solicitud.get_id())
                     );
                 }
