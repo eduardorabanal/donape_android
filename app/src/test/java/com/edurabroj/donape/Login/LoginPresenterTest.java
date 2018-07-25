@@ -1,12 +1,10 @@
-package com.edurabroj.donape.login;
+package com.edurabroj.donape.Login;
 
 import com.edurabroj.donape.preferences.IPreferences;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import static org.junit.Assert.*;
 
 public class LoginPresenterTest {
     private LoginPresenter loginPresenter;

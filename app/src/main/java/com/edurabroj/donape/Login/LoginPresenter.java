@@ -1,6 +1,4 @@
-package com.edurabroj.donape.login;
-
-import android.text.TextUtils;
+package com.edurabroj.donape.Login;
 
 import com.edurabroj.donape.entidades.LoginRespuesta;
 import com.edurabroj.donape.preferences.IPreferences;
@@ -38,7 +36,7 @@ public class LoginPresenter implements LoginContract.Presenter, LoginContract.In
 
     @Override
     public void onSuccessLogin(LoginRespuesta loginRespuesta) {
-        preferences.setStringPreference(TOKEN_KEY,loginRespuesta.getToken());
+        preferences.setStringPreference(TOKEN_KEY, loginRespuesta.getToken());
         view.launchHome();
     }
 

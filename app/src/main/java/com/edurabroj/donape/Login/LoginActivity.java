@@ -1,4 +1,4 @@
-package com.edurabroj.donape.login;
+package com.edurabroj.donape.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.actividades.MainActivity;
+import com.edurabroj.donape.Lista.ListaActivity;
 import com.edurabroj.donape.preferences.Preferences;
 
 import static com.edurabroj.donape.utils.GuiUtils.getAnimation;
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void launchHome() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this,ListaActivity.class));
         finish();
     }
 
