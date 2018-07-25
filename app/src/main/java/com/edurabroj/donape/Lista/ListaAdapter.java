@@ -1,4 +1,4 @@
-package com.edurabroj.donape.adaptadores;
+package com.edurabroj.donape.Lista;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.actividades.NecesidadDetailsActivity;
 import com.edurabroj.donape.entidades.Solicitud;
@@ -23,12 +21,12 @@ import java.util.List;
 import static com.edurabroj.donape.data.ExtrasData.EXTRA_NECESIDAD_ID;
 import static com.edurabroj.donape.utils.GuiUtils.loadImage;
 
-public class SolicitudesAdapter  extends RecyclerView.Adapter<SolicitudesAdapter.VH> {
+public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
     private List<Solicitud> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
-    public SolicitudesAdapter(Context context) {
+    public ListaAdapter(Context context) {
         this.dataset = new ArrayList<>();
         this.context = context;
     }
