@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Lista.ListaActivity"></activity>
+        <activity android:name=".components.Lista.ListaActivity"></activity>
         <activity
-            android:name=".Login.LoginActivity"
+            android:name=".components.Login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Detalle.DetalleActivity">
+        <activity android:name=".components.Detalle.DetalleActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Lista.ListaActivity" />
+                android:value=".components.Lista.ListaActivity" />
         </activity>
     </application>
 
