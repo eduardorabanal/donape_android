@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.AnimationUtils;
 
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 import com.edurabroj.donape.preferences.IPreferences;
 import com.edurabroj.donape.preferences.Preferences;
 
@@ -60,7 +60,7 @@ public class ListaActivity extends AppCompatActivity implements ListaContract.Vi
     }
 
     @Override
-    public void llenarLista(List<Solicitud> list) {
+    public void llenarLista(List<Necesidad> list) {
         adapter.setDataset(list);
         rvList.scheduleLayoutAnimation();
     }

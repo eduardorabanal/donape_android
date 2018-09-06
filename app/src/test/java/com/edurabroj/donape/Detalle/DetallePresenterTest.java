@@ -1,7 +1,7 @@
 package com.edurabroj.donape.Detalle;
 
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,15 +45,15 @@ public class DetallePresenterTest {
 
     @Test
     public void cuandoRecibeDetalleOcultaProgress() {
-        presenter.onDetalleLoadSuccess(new Solicitud());
+        presenter.onDetalleLoadSuccess(new Necesidad());
         Mockito.verify(view).ocultarProgress();
     }
 
     @Test
     public void cuandoRecibeDetalleLoMuestra() {
-        Solicitud solicitud = new Solicitud();
-        presenter.onDetalleLoadSuccess(solicitud);
-        Mockito.verify(view).mostrarDetalle(solicitud);
+        Necesidad necesidad = new Necesidad();
+        presenter.onDetalleLoadSuccess(necesidad);
+        Mockito.verify(view).mostrarDetalle(necesidad);
     }
 
     @Test

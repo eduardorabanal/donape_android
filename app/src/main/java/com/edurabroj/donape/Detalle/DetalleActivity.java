@@ -5,13 +5,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.adaptadores.SliderAdapter;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 import com.edurabroj.donape.preferences.IPreferences;
 import com.edurabroj.donape.preferences.Preferences;
 
@@ -79,10 +78,12 @@ public class DetalleActivity extends AppCompatActivity implements DetalleContrac
     }
 
     @Override
-    public void mostrarDetalle(Solicitud solicitud) {
-        setTitle(solicitud.getTitle());
-        tvDescripcion.setText(solicitud.getDescription());
-        sliderAdapter.setImages(solicitud.getImages());
+    public void mostrarDetalle(Necesidad necesidad) {
+        setTitle(necesidad.getTitulo());
+        tvDescripcion.setText(necesidad.getDescripcion());
+        sliderAdapter.setImages(new ArrayList<String>(){{
+            add("https://cdn.shopify.com/s/files/1/2394/4001/products/811595_811596-1_1024x.png?v=1523295436");
+        }});
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.edurabroj.donape.Lista;
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 
 public class ListaPresenterTest {
     private ListaPresenter presenter;
@@ -48,14 +46,14 @@ public class ListaPresenterTest {
 
     @Test
     public void cuandoObtieneListaOcultaProgress() {
-        presenter.onLoadListaSuccess(new ArrayList<Solicitud>());
+        presenter.onLoadListaSuccess(new ArrayList<Necesidad>());
         Mockito.verify(view).ocultarProgress();
     }
 
     @Test
     public void cuandoObtieneListaMuestraElementos() {
-        presenter.onLoadListaSuccess(new ArrayList<Solicitud>());
-        Mockito.verify(view).llenarLista(new ArrayList<Solicitud>());
+        presenter.onLoadListaSuccess(new ArrayList<Necesidad>());
+        Mockito.verify(view).llenarLista(new ArrayList<Necesidad>());
     }
 
     @Test

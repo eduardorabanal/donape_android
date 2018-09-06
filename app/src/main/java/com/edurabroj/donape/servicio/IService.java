@@ -1,7 +1,7 @@
 package com.edurabroj.donape.servicio;
 
 import com.edurabroj.donape.entidades.LoginRespuesta;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import java.util.List;
 
@@ -14,13 +14,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface IService {
-    @GET("request")
-    Call<List<Solicitud>> ObtenerSolicitudes(@Header("Authorization") String authToken);
+    @GET("necesidad")
+    Call<List<Necesidad>> ObtenerSolicitudes(@Header("Authorization") String authToken);
 
-    @GET("request/{id}")
-    Call<Solicitud> ObtenerSolicitudById(@Header("Authorization") String authToken, @Path("id") String id);
+    @GET("necesidad/{id}")
+    Call<Necesidad> ObtenerSolicitudById(@Header("Authorization") String authToken, @Path("id") String id);
 
-    @POST("login")
+    @POST("usuario/login")
     @FormUrlEncoded
     Call<LoginRespuesta> Login(@Field("email") String email, @Field("password") String password);
 }

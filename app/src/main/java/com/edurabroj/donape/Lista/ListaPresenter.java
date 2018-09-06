@@ -1,6 +1,6 @@
 package com.edurabroj.donape.Lista;
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class ListaPresenter implements ListaContract.Presenter, ListaContract.In
     }
 
     @Override
-    public void onLoadListaSuccess(List<Solicitud> data) {
+    public void onLoadListaSuccess(List<Necesidad> data) {
         view.ocultarProgress();
         view.llenarLista(data);
     }

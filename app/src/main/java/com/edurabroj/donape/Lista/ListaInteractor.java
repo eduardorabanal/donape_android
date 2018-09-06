@@ -2,8 +2,7 @@ package com.edurabroj.donape.Lista;
 
 import android.util.Log;
 
-import com.edurabroj.donape.entidades.LoginRespuesta;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 import com.edurabroj.donape.preferences.IPreferences;
 import com.edurabroj.donape.servicio.IService;
 import com.edurabroj.donape.servicio.ServiceProvider;
@@ -30,11 +29,11 @@ public class ListaInteractor implements ListaContract.Interactor {
         IService service = ServiceProvider.getService();
         String authToken = preferences.getStringPreference(TOKEN_KEY);
 
-        Call<List<Solicitud>> call = service.ObtenerSolicitudes(TOKEN_PREV + authToken);
+        Call<List<Necesidad>> call = service.ObtenerSolicitudes(TOKEN_PREV + authToken);
 
-        call.enqueue(new Callback<List<Solicitud>>() {
+        call.enqueue(new Callback<List<Necesidad>>() {
             @Override
-            public void onResponse(Call<List<Solicitud>> call, Response<List<Solicitud>> response) {
+            public void onResponse(Call<List<Necesidad>> call, Response<List<Necesidad>> response) {
                 if(response.isSuccessful()){
                     onLoadListaFinishedListener.onLoadListaSuccess(response.body());
                 }else{
@@ -48,7 +47,7 @@ public class ListaInteractor implements ListaContract.Interactor {
             }
 
             @Override
-            public void onFailure(Call<List<Solicitud>> call, Throwable t) {
+            public void onFailure(Call<List<Necesidad>> call, Throwable t) {
                 onLoadListaFinishedListener.onLoadListaErrorRed(t);
             }
         });

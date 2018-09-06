@@ -1,6 +1,6 @@
 package com.edurabroj.donape.Detalle;
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 class DetallePresenter implements DetalleContract.Presenter, DetalleContract.Interactor.OnDetalleLoadFinished {
     DetalleContract.View view;
@@ -24,9 +24,9 @@ class DetallePresenter implements DetalleContract.Presenter, DetalleContract.Int
     }
 
     @Override
-    public void onDetalleLoadSuccess(Solicitud solicitud) {
+    public void onDetalleLoadSuccess(Necesidad necesidad) {
         view.ocultarProgress();
-        view.mostrarDetalle(solicitud);
+        view.mostrarDetalle(necesidad);
     }
 
     @Override

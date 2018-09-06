@@ -9,7 +9,7 @@ public class ServiceProvider {
     public static IService getService(){
         if(service==null){
             service = new Retrofit.Builder()
-                    .baseUrl("https://donape.herokuapp.com/api/")
+                    .baseUrl("http://192.168.0.15:8001/api/v1/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(IService.class);

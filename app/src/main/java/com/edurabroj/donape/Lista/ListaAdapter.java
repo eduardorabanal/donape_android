@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.Detalle.DetalleActivity;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import static com.edurabroj.donape.data.ExtrasData.EXTRA_NECESIDAD_ID;
 import static com.edurabroj.donape.utils.GuiUtils.loadImage;
 
 public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
-    private List<Solicitud> dataset;
+    private List<Necesidad> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
@@ -31,7 +31,7 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
         this.context = context;
     }
 
-    public void setDataset(List<Solicitud> dataset) {
+    public void setDataset(List<Necesidad> dataset) {
         this.dataset = dataset;
         this.notifyDataSetChanged();
     }
@@ -67,18 +67,18 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
             btnDetalle = itemView.findViewById(R.id.btnDetalle);
         }
 
-        public void setData(final Solicitud solicitud) {
-            if(solicitud.getImages().size()>0){
-                loadImage(context,solicitud.getImages().get(0),ivImg);
-            }
-            tvTitulo.setText(solicitud.getTitle());
-            tvDescripcion.setText(solicitud.getDescription());
+        public void setData(final Necesidad necesidad) {
+//            if(necesidad.getImages().size()>0){
+                loadImage(context,"https://cdn.shopify.com/s/files/1/2394/4001/products/811595_811596-1_1024x.png?v=1523295436",ivImg);
+//            }
+            tvTitulo.setText(necesidad.getTitulo());
+            tvDescripcion.setText(necesidad.getDescripcion());
             btnDetalle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
                         new Intent(context, DetalleActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID,solicitud.get_id())
+                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId())
                     );
                 }
             });

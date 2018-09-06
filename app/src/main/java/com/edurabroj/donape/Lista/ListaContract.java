@@ -1,6 +1,6 @@
 package com.edurabroj.donape.Lista;
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class ListaContract {
     public interface View {
         void mostrarProgress();
         void ocultarProgress();
-        void llenarLista(List<Solicitud> list);
+        void llenarLista(List<Necesidad> list);
         void mostrarErrorRed();
         void mostrarErrorServidor();
     }
@@ -20,7 +20,7 @@ public class ListaContract {
 
     public interface Interactor {
         interface OnLoadListaFinishedListener{
-            void onLoadListaSuccess(List<Solicitud> data);
+            void onLoadListaSuccess(List<Necesidad> data);
             void onLoadListaErrorServidor();
             void onLoadListaErrorRed(Throwable t);
         }

@@ -1,6 +1,6 @@
 package com.edurabroj.donape.Detalle;
 
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 import com.edurabroj.donape.preferences.IPreferences;
 import com.edurabroj.donape.servicio.IService;
 import com.edurabroj.donape.servicio.ServiceProvider;
@@ -24,11 +24,11 @@ public class DetalleInteractor implements DetalleContract.Interactor {
         IService service = ServiceProvider.getService();
         String authToken = preferences.getStringPreference(TOKEN_KEY);
 
-        Call<Solicitud> call = service.ObtenerSolicitudById(TOKEN_PREV + authToken, id);
+        Call<Necesidad> call = service.ObtenerSolicitudById(TOKEN_PREV + authToken, id);
 
-        call.enqueue(new Callback<Solicitud>() {
+        call.enqueue(new Callback<Necesidad>() {
             @Override
-            public void onResponse(Call<Solicitud> call, Response<Solicitud> response) {
+            public void onResponse(Call<Necesidad> call, Response<Necesidad> response) {
                 if(response.isSuccessful()){
                     onDetalleLoadFinished.onDetalleLoadSuccess(response.body());
                 }else {
@@ -37,7 +37,7 @@ public class DetalleInteractor implements DetalleContract.Interactor {
             }
 
             @Override
-            public void onFailure(Call<Solicitud> call, Throwable t) {
+            public void onFailure(Call<Necesidad> call, Throwable t) {
                 onDetalleLoadFinished.onDetalleLoadErrorRed();
             }
         });

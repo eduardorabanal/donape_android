@@ -1,11 +1,11 @@
 package com.edurabroj.donape.Detalle;
-import com.edurabroj.donape.entidades.Solicitud;
+import com.edurabroj.donape.entidades.Necesidad;
 
 public class DetalleContract {
     public interface View {
         void mostrarProgress();
         void ocultarProgress();
-        void mostrarDetalle(Solicitud solicitud);
+        void mostrarDetalle(Necesidad necesidad);
         void mostrarErrorServidor();
         void mostrarErrorRed();
     }
@@ -17,7 +17,7 @@ public class DetalleContract {
 
     public interface Interactor {
         interface OnDetalleLoadFinished {
-            void onDetalleLoadSuccess(Solicitud solicitud);
+            void onDetalleLoadSuccess(Necesidad necesidad);
             void onDetalleLoadErrorServidor();
             void onDetalleLoadErrorRed();
         }
