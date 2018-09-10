@@ -1,6 +1,6 @@
 package com.edurabroj.donape.shared.servicio;
 
-import com.edurabroj.donape.shared.entidades.LoginRespuesta;
+import com.edurabroj.donape.components.login.LoginRespuesta;
 import com.edurabroj.donape.shared.entidades.Necesidad;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface IService {
     @GET("necesidad/{id}")
     Call<Necesidad> ObtenerSolicitudById(@Header("Authorization") String authToken, @Path("id") String id);
 
-    @POST("usuario/login")
+    @POST("auth/login")
     @FormUrlEncoded
     Call<LoginRespuesta> Login(@Field("email") String email, @Field("password") String password);
 }

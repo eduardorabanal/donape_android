@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".components.Login.LoginActivity"
+    tools:context=".components.login.LoginActivity"
     android:animateLayoutChanges="true"
     android:layout_gravity="center"
     android:focusableInTouchMode="true"
@@ -54,7 +54,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="mimo@gmail.com" />
+                    android:text="la@ra.com" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -73,7 +73,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="elmimo"/>
+                    android:text="larami"/>
 
             </android.support.design.widget.TextInputLayout>
 
