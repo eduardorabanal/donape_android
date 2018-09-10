@@ -12,10 +12,12 @@ import android.widget.TextView;
 
 import com.edurabroj.donape.PublicacionQuery;
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.components.donacion.donar.DonarActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ARTICULO;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
 
 public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAdapter.VH> {
@@ -67,8 +69,9 @@ public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAd
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
-                        new Intent(context, DetallePublicacionActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.id())
+                        new Intent(context, DonarActivity.class)
+                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.id()+"")
+                            .putExtra(EXTRA_NECESIDAD_ARTICULO, necesidad.articulo())
                     );
                 }
             });

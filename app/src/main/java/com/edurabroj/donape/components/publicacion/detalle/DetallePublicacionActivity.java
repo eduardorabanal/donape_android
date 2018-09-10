@@ -29,7 +29,7 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
     SliderAdapter sliderAdapter;
 
     SwipeRefreshLayout refresh;
-    FloatingActionButton btnShare;
+//    FloatingActionButton btnShare;
 
     TextView tvDescripcion;
     ViewPager slider;
@@ -51,7 +51,7 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
         presenter = new DetallePublicacionPresenter(this, new DetallePublicacionInteractor(preferences));
 
         refresh = findViewById(R.id.refresh);
-        btnShare = findViewById(R.id.btnShare);
+//        btnShare = findViewById(R.id.btnShare);
 
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
@@ -84,7 +84,7 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
     @Override
     public void mostrarProgress() {
         refresh.setRefreshing(true);
-        btnShare.setVisibility(View.GONE);
+//        btnShare.setVisibility(View.GONE);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
             @Override
             public void run() {
                 refresh.setRefreshing(false);
-                btnShare.setVisibility(View.VISIBLE);
+//                btnShare.setVisibility(View.VISIBLE);
             }
         });
     }

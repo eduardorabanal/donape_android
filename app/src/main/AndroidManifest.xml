@@ -15,8 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".components.necesidad.lista.ListaNecesidadActivity"></activity>
-        <activity android:name=".components.publicacion.lista.ListaPublicacionActivity"></activity>
+        <activity android:name=".components.publicacion.lista.ListaPublicacionActivity" />
         <activity
             android:name=".components.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -29,8 +28,10 @@
         <activity android:name=".components.publicacion.detalle.DetallePublicacionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".components.necesidad.lista.ListaNecesidadActivity" />
+                android:value=".components.publicacion.lista.ListaPublicacionActivity" />
         </activity>
+        <activity android:name=".components.donacion.donar.DonarActivity" />
+        <activity android:name=".components.donacion.donar.GraciasActivity"/>
     </application>
 
 </manifest>
