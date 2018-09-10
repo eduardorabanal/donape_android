@@ -16,5 +16,6 @@
     <string name="error_field_required">El campo es requerido</string>
     <string name="permission_rationale">"El permiso de contactos es necesario para el autocompletado de emails."
     </string>
-    <string name="action_donate">Quiero ayudar</string>
+    <string name="action_donate">Ayudar</string>
+    <string name="title_necesidades">Se necesita:</string>
 </resources>

@@ -5,8 +5,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.edurabroj.donape.PublicacionQuery;
@@ -26,10 +29,13 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
     SliderAdapter sliderAdapter;
 
     SwipeRefreshLayout refresh;
-    ViewPager slider;
     FloatingActionButton btnShare;
 
     TextView tvDescripcion;
+    ViewPager slider;
+    RecyclerView rvNecesidades;
+
+    ListaNecesidadAdapter necesidadAdapter;
 
     DetallePublicacionContract.Presenter presenter;
     IPreferences preferences;
@@ -46,11 +52,18 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
 
         refresh = findViewById(R.id.refresh);
         btnShare = findViewById(R.id.btnShare);
+
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
         slider = findViewById(R.id.viewPager);
         sliderAdapter = new SliderAdapter(this,new ArrayList<String>());
         slider.setAdapter(sliderAdapter);
+
+        rvNecesidades = findViewById(R.id.rvNecesidades);
+        rvNecesidades.setLayoutManager(new LinearLayoutManager(this));
+        rvNecesidades.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
+        necesidadAdapter = new ListaNecesidadAdapter(this);
+        rvNecesidades.setAdapter(necesidadAdapter);
 
         extras = getIntent().getExtras();
         if(extras!=null && extras.getString(EXTRA_PUBLICACION_ID)!=null){
@@ -93,10 +106,11 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
                 setTitle(publicacion.titulo());
                 tvDescripcion.setText(publicacion.descripcion());
                 List<String> imgUrls = new ArrayList<>();
-                for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
-                    imgUrls.add(imagen.url());
-                }
+                    for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
+                        imgUrls.add(imagen.url());
+                    }
                 sliderAdapter.setImages(imgUrls);
+                necesidadAdapter.setDataset(publicacion.necesidades());
             }
         });
     }
