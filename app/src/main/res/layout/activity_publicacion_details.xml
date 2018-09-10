@@ -29,12 +29,6 @@
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
-                <Button
-                    style="@style/AppTheme.Button"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:text="@string/action_donate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

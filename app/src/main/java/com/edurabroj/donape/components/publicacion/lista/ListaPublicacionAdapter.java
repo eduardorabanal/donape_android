@@ -11,19 +11,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edurabroj.donape.ListarPublicaciones;
+import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.components.necesidad.detalle.DetalleNecesidadActivity;
-import com.edurabroj.donape.shared.entidades.Necesidad;
+import com.edurabroj.donape.components.publicacion.detalle.DetallePublicacionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
+import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
 public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicacionAdapter.VH> {
-    private List<ListarPublicaciones.Publicacione> dataset;
+    private List<PublicacionesQuery.Publicacione> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
@@ -32,7 +31,7 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
         this.context = context;
     }
 
-    public void setDataset(List<ListarPublicaciones.Publicacione> dataset) {
+    public void setDataset(List<PublicacionesQuery.Publicacione> dataset) {
         this.dataset = dataset;
         this.notifyDataSetChanged();
     }
@@ -40,7 +39,7 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_solicitud,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_publicacion,parent,false);
         view.setOnClickListener(clickListener);
         return new VH(view);
     }
@@ -68,7 +67,7 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
             btnDetalle = itemView.findViewById(R.id.btnDetalle);
         }
 
-        public void setData(final ListarPublicaciones.Publicacione publicacion) {
+        public void setData(final PublicacionesQuery.Publicacione publicacion) {
             if(publicacion.imagenes().size()>0){
                 loadImage(context,publicacion.imagenes().get(0).url(),ivImg);
             }
@@ -78,8 +77,8 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
-                        new Intent(context, DetalleNecesidadActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, publicacion.id())
+                        new Intent(context, DetallePublicacionActivity.class)
+                            .putExtra(EXTRA_PUBLICACION_ID, publicacion.id()+"")
                     );
                 }
             });

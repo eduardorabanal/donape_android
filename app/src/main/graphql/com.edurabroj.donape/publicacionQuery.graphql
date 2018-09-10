@@ -1,0 +1,15 @@
+query PublicacionQuery($id:Int!){
+  publicacion(id:$id){
+    id
+    titulo
+    descripcion
+    imagenes{
+      url
+    }
+    necesidades{
+      id
+      articulo
+      cantidad
+    }
+  }
+}

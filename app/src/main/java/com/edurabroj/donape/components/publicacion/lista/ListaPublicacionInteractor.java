@@ -5,7 +5,8 @@ import android.util.Log;
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.exception.ApolloException;
-import com.edurabroj.donape.ListarPublicaciones;
+import com.edurabroj.donape.PublicacionesQuery;
+import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.shared.entidades.Necesidad;
 import com.edurabroj.donape.shared.graphql.ClienteApolloProvider;
 import com.edurabroj.donape.shared.preferences.IPreferences;
@@ -34,9 +35,9 @@ public class ListaPublicacionInteractor implements ListaPublicacionContract.Inte
     @Override
     public void getLista(final OnLoadListaFinishedListener onLoadListaFinishedListener) {
         ApolloClient cliente = ClienteApolloProvider.getClient();
-        cliente.query(ListarPublicaciones.builder().build()).enqueue(new ApolloCall.Callback<ListarPublicaciones.Data>() {
+        cliente.query(PublicacionesQuery.builder().build()).enqueue(new ApolloCall.Callback<PublicacionesQuery.Data>() {
             @Override
-            public void onResponse(@Nonnull com.apollographql.apollo.api.Response<ListarPublicaciones.Data> response) {
+            public void onResponse(@Nonnull com.apollographql.apollo.api.Response<PublicacionesQuery.Data> response) {
                 onLoadListaFinishedListener.onLoadListaSuccess(response.data());
             }
 

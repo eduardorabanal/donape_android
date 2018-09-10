@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.components.necesidad.detalle.DetalleNecesidadActivity;
+import com.edurabroj.donape.components.publicacion.detalle.DetallePublicacionActivity;
 import com.edurabroj.donape.shared.entidades.Necesidad;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
+import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
 public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAdapter.VH> {
@@ -39,7 +39,7 @@ public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAd
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_solicitud,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_publicacion,parent,false);
         view.setOnClickListener(clickListener);
         return new VH(view);
     }
@@ -77,8 +77,8 @@ public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAd
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
-                        new Intent(context, DetalleNecesidadActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId())
+                        new Intent(context, DetallePublicacionActivity.class)
+                            .putExtra(EXTRA_PUBLICACION_ID, necesidad.getId())
                     );
                 }
             });

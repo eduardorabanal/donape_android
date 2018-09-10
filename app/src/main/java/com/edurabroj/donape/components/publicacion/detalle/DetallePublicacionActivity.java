@@ -1,25 +1,27 @@
-package com.edurabroj.donape.components.necesidad.detalle;
+package com.edurabroj.donape.components.publicacion.detalle;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.edurabroj.donape.PublicacionQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.shared.adaptadores.SliderAdapter;
-import com.edurabroj.donape.shared.entidades.Necesidad;
 import com.edurabroj.donape.shared.preferences.IPreferences;
 import com.edurabroj.donape.shared.preferences.Preferences;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
+import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
-public class DetalleNecesidadActivity extends AppCompatActivity implements DetalleNecesidadContract.View {
+public class DetallePublicacionActivity extends AppCompatActivity implements DetallePublicacionContract.View {
     Bundle extras;
     SliderAdapter sliderAdapter;
 
@@ -29,7 +31,7 @@ public class DetalleNecesidadActivity extends AppCompatActivity implements Detal
 
     TextView tvDescripcion;
 
-    DetalleNecesidadContract.Presenter presenter;
+    DetallePublicacionContract.Presenter presenter;
     IPreferences preferences;
 
     String id;
@@ -37,10 +39,10 @@ public class DetalleNecesidadActivity extends AppCompatActivity implements Detal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_necesidad_details);
+        setContentView(R.layout.activity_publicacion_details);
 
         preferences = new Preferences(this);
-        presenter = new DetalleNecesidadPresenter(this, new DetalleNecesidadInteractor(preferences));
+        presenter = new DetallePublicacionPresenter(this, new DetallePublicacionInteractor(preferences));
 
         refresh = findViewById(R.id.refresh);
         btnShare = findViewById(R.id.btnShare);
@@ -51,8 +53,9 @@ public class DetalleNecesidadActivity extends AppCompatActivity implements Detal
         slider.setAdapter(sliderAdapter);
 
         extras = getIntent().getExtras();
-        if(extras!=null && extras.getString(EXTRA_NECESIDAD_ID)!=null){
-            id = extras.getString(EXTRA_NECESIDAD_ID);
+        if(extras!=null && extras.getString(EXTRA_PUBLICACION_ID)!=null){
+            id = extras.getString(EXTRA_PUBLICACION_ID);
+            Log.i("PUBLICACION_ID",id);
         }
 
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -73,17 +76,29 @@ public class DetalleNecesidadActivity extends AppCompatActivity implements Detal
 
     @Override
     public void ocultarProgress() {
-        refresh.setRefreshing(false);
-        btnShare.setVisibility(View.VISIBLE);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refresh.setRefreshing(false);
+                btnShare.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
-    public void mostrarDetalle(Necesidad necesidad) {
-        setTitle(necesidad.getArticulo());
-        tvDescripcion.setText(necesidad.getCantidad()+"");
-        sliderAdapter.setImages(new ArrayList<String>(){{
-            add("https://cdn.shopify.com/s/files/1/2394/4001/products/811595_811596-1_1024x.png?v=1523295436");
-        }});
+    public void mostrarDetalle(final PublicacionQuery.Publicacion publicacion) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setTitle(publicacion.titulo());
+                tvDescripcion.setText(publicacion.descripcion());
+                List<String> imgUrls = new ArrayList<>();
+                for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
+                    imgUrls.add(imagen.url());
+                }
+                sliderAdapter.setImages(imgUrls);
+            }
+        });
     }
 
     @Override

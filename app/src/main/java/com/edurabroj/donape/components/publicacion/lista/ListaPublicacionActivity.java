@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.animation.AnimationUtils;
 
-import com.edurabroj.donape.ListarPublicaciones;
+import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.shared.entidades.Necesidad;
 import com.edurabroj.donape.shared.preferences.IPreferences;
@@ -61,7 +61,7 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
     }
 
     @Override
-    public void llenarLista(final List<ListarPublicaciones.Publicacione> list) {
+    public void llenarLista(final List<PublicacionesQuery.Publicacione> list) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

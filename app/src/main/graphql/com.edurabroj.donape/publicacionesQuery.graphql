@@ -1,4 +1,4 @@
-query listarPublicaciones{
+query PublicacionesQuery{
   publicaciones {
     id
     titulo

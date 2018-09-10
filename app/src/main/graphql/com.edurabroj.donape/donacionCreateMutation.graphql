@@ -1,0 +1,20 @@
+mutation donacionCreateMutation(
+  $usuario: Int!,
+  $necesidad: Int!,
+  $cantidad:Float!,
+  $fecha:String!
+){
+  crearDonacion(
+      usuario:$usuario,
+      necesidad:$necesidad,
+      cantidad:$cantidad,
+      fecha:$fecha
+  ){
+    id,
+    necesidad{
+    	id
+    },
+    cantidad,
+    fecha
+  }
+}
