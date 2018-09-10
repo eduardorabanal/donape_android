@@ -1,5 +1,6 @@
 package com.edurabroj.donape.components.publicacion.lista;
 
+import com.edurabroj.donape.ListarPublicaciones;
 import com.edurabroj.donape.shared.entidades.Necesidad;
 
 import java.util.List;
@@ -26,9 +27,9 @@ public class ListaPublicacionPresenter implements ListaPublicacionContract.Prese
     }
 
     @Override
-    public void onLoadListaSuccess(List<Necesidad> data) {
+    public void onLoadListaSuccess(ListarPublicaciones.Data data) {
         view.ocultarProgress();
-        view.llenarLista(data);
+        view.llenarLista(data.publicaciones());
     }
 
     @Override

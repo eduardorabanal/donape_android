@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.edurabroj.donape.ListarPublicaciones;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.necesidad.detalle.DetalleNecesidadActivity;
 import com.edurabroj.donape.shared.entidades.Necesidad;
@@ -22,7 +23,7 @@ import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
 public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicacionAdapter.VH> {
-    private List<Necesidad> dataset;
+    private List<ListarPublicaciones.Publicacione> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
@@ -31,7 +32,7 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
         this.context = context;
     }
 
-    public void setDataset(List<Necesidad> dataset) {
+    public void setDataset(List<ListarPublicaciones.Publicacione> dataset) {
         this.dataset = dataset;
         this.notifyDataSetChanged();
     }
@@ -67,18 +68,18 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
             btnDetalle = itemView.findViewById(R.id.btnDetalle);
         }
 
-        public void setData(final Necesidad necesidad) {
-//            if(necesidad.getImages().size()>0){
-                loadImage(context,"https://cdn.shopify.com/s/files/1/2394/4001/products/811595_811596-1_1024x.png?v=1523295436",ivImg);
-//            }
-            tvTitulo.setText(necesidad.getArticulo());
-            tvDescripcion.setText(necesidad.getCantidad()+"");
+        public void setData(final ListarPublicaciones.Publicacione publicacion) {
+            if(publicacion.imagenes().size()>0){
+                loadImage(context,publicacion.imagenes().get(0).url(),ivImg);
+            }
+            tvTitulo.setText(publicacion.titulo());
+            tvDescripcion.setText(publicacion.descripcion()+"");
             btnDetalle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
                         new Intent(context, DetalleNecesidadActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId())
+                            .putExtra(EXTRA_NECESIDAD_ID, publicacion.id())
                     );
                 }
             });

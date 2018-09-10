@@ -1,0 +1,10 @@
+query listarPublicaciones{
+  publicaciones {
+    id
+    titulo
+    descripcion
+    imagenes{
+      url
+    }
+  }
+}
