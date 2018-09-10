@@ -14,8 +14,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface IService {
-    @GET("necesidad")
-    Call<List<Necesidad>> ObtenerSolicitudes(@Header("Authorization") String authToken);
+    @GET("necesidad/{grupoId}")
+    Call<List<Necesidad>> ObtenerSolicitudesByGrupo(@Header("Authorization") String authToken, @Path("grupoId") int grupoId);
 
     @GET("necesidad/{id}")
     Call<Necesidad> ObtenerSolicitudById(@Header("Authorization") String authToken, @Path("id") String id);

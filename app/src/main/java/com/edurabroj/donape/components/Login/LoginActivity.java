@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.Lista.ListaActivity;
+import com.edurabroj.donape.components.ListaGrupos.ListaGruposActivity;
 import com.edurabroj.donape.shared.preferences.Preferences;
 
 import static com.edurabroj.donape.shared.utils.GuiUtils.getAnimation;
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @Override
     public void launchHome() {
-        startActivity(new Intent(this,ListaActivity.class));
+        startActivity(new Intent(this,ListaGruposActivity.class));
         finish();
     }
 

@@ -1,4 +1,4 @@
-package com.edurabroj.donape.components.Lista;
+package com.edurabroj.donape.components.ListaGrupos;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +21,12 @@ import java.util.List;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
-public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.VH> {
+public class ListaGruposAdapter extends RecyclerView.Adapter<ListaGruposAdapter.VH> {
     private List<Necesidad> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
-    public ListaAdapter(Context context) {
+    public ListaGruposAdapter(Context context) {
         this.dataset = new ArrayList<>();
         this.context = context;
     }

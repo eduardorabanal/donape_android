@@ -1,4 +1,4 @@
-package com.edurabroj.donape.components.Lista;
+package com.edurabroj.donape.components.ListaGrupos;
 
 import android.util.Log;
 
@@ -17,10 +17,10 @@ import retrofit2.Response;
 import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_KEY;
 import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_PREV;
 
-public class ListaInteractor implements ListaContract.Interactor {
+public class ListaGruposInteractor implements ListaGruposContract.Interactor {
     IPreferences preferences;
 
-    public ListaInteractor(IPreferences preferences) {
+    public ListaGruposInteractor(IPreferences preferences) {
         this.preferences = preferences;
     }
 
@@ -29,7 +29,7 @@ public class ListaInteractor implements ListaContract.Interactor {
         IService service = ServiceProvider.getService();
         String authToken = preferences.getStringPreference(TOKEN_KEY);
 
-        Call<List<Necesidad>> call = service.ObtenerSolicitudesByGrupo(TOKEN_PREV + authToken,1);
+        Call<List<Necesidad>> call = service.ObtenerSolicitudesByGrupo(TOKEN_PREV + authToken, 1);
 
         call.enqueue(new Callback<List<Necesidad>>() {
             @Override

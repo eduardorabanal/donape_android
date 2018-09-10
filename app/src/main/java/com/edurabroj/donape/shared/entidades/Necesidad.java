@@ -3,61 +3,35 @@ package com.edurabroj.donape.shared.entidades;
 import java.util.Date;
 
 public class Necesidad {
-    private String id;
-    private String titulo;
-    private String descripcion;
-    private Date fecha;
-    private int usuarioId;
-    private float cantidad;
+    private int id;
+    private int grupoId;
+    private String tipo;
     private String articulo;
-    private String tipoCod;
+    private float cantidad;
+    private Date fecha;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public int getGrupoId() {
+        return grupoId;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setGrupoId(int grupoId) {
+        this.grupoId = grupoId;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public float getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(float cantidad) {
-        this.cantidad = cantidad;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public String getArticulo() {
@@ -68,11 +42,19 @@ public class Necesidad {
         this.articulo = articulo;
     }
 
-    public String getTipoCod() {
-        return tipoCod;
+    public float getCantidad() {
+        return cantidad;
     }
 
-    public void setTipoCod(String tipoCod) {
-        this.tipoCod = tipoCod;
+    public void setCantidad(float cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 }

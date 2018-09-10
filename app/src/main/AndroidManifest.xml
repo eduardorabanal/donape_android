@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".components.Lista.ListaActivity"></activity>
+        <activity android:name=".components.ListaGrupos.ListaGruposActivity"></activity>
         <activity
             android:name=".components.Login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -79,8 +79,8 @@ public class DetalleActivity extends AppCompatActivity implements DetalleContrac
 
     @Override
     public void mostrarDetalle(Necesidad necesidad) {
-        setTitle(necesidad.getTitulo());
-        tvDescripcion.setText(necesidad.getDescripcion());
+        setTitle(necesidad.getArticulo());
+        tvDescripcion.setText(necesidad.getCantidad()+"");
         sliderAdapter.setImages(new ArrayList<String>(){{
             add("https://cdn.shopify.com/s/files/1/2394/4001/products/811595_811596-1_1024x.png?v=1523295436");
         }});

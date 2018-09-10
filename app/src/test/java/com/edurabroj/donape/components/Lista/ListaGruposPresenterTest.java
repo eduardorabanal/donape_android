@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
-public class ListaPresenterTest {
+public class ListaGruposPresenterTest {
     private ListaPresenter presenter;
     private ListaContract.View view;
     private ListaContract.Interactor interactor;
