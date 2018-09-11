@@ -1,6 +1,10 @@
 package com.edurabroj.donape.components.donacion.donar;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloCallback;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -24,7 +28,7 @@ public class DonarInteractor implements DonarContract.Interactor {
                 .necesidad(necesidadId)
                 .usuario(1)
                 .fecha("2018-05-04")
-                .build()).enqueue(new ApolloCall.Callback<DonacionCreateMutation.Data>() {
+                .build()).enqueue(new ApolloCallback<>(new ApolloCall.Callback<DonacionCreateMutation.Data>() {
             @Override
             public void onResponse(@Nonnull Response<DonacionCreateMutation.Data> response) {
                 presenter.mostrarDonacionCorrecta();
@@ -34,6 +38,6 @@ public class DonarInteractor implements DonarContract.Interactor {
             public void onFailure(@Nonnull ApolloException e) {
                 presenter.mostrarErrorDonacion();
             }
-        });
+        },new Handler(Looper.getMainLooper())));
     }
 }
