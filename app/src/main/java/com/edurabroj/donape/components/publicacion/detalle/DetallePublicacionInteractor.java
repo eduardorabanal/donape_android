@@ -1,6 +1,10 @@
 package com.edurabroj.donape.components.publicacion.detalle;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.apollographql.apollo.ApolloCall;
+import com.apollographql.apollo.ApolloCallback;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.exception.ApolloException;
 import com.edurabroj.donape.PublicacionQuery;
@@ -33,7 +37,7 @@ public class DetallePublicacionInteractor implements DetallePublicacionContract.
                 PublicacionQuery.builder()
                 .id(Integer.parseInt(id))
                 .build())
-        .enqueue(new ApolloCall.Callback<PublicacionQuery.Data>() {
+        .enqueue(new ApolloCallback<>(new ApolloCall.Callback<PublicacionQuery.Data>() {
             @Override
             public void onResponse(@Nonnull com.apollographql.apollo.api.Response<PublicacionQuery.Data> response) {
                 onDetalleLoadFinished.onDetalleLoadSuccess(response.data());
@@ -43,6 +47,6 @@ public class DetallePublicacionInteractor implements DetallePublicacionContract.
             public void onFailure(@Nonnull ApolloException e) {
                 onDetalleLoadFinished.onDetalleLoadErrorServidor();
             }
-        });
+        },new Handler(Looper.getMainLooper())));
     }
 }

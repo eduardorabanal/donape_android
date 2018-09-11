@@ -21,45 +21,39 @@ import com.edurabroj.donape.shared.preferences.Preferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
 public class DetallePublicacionActivity extends AppCompatActivity implements DetallePublicacionContract.View {
+    DetallePublicacionContract.Presenter presenter;
+
+    IPreferences preferences;
+    String id;
+
     Bundle extras;
     SliderAdapter sliderAdapter;
-
-    SwipeRefreshLayout refresh;
-//    FloatingActionButton btnShare;
-
-    TextView tvDescripcion;
-    ViewPager slider;
-    RecyclerView rvNecesidades;
-
     ListaNecesidadAdapter necesidadAdapter;
 
-    DetallePublicacionContract.Presenter presenter;
-    IPreferences preferences;
-
-    String id;
+    @BindView(R.id.refresh) SwipeRefreshLayout refresh;
+    @BindView(R.id.tvDescripcion) TextView tvDescripcion;
+    @BindView(R.id.viewPager) ViewPager slider;
+    @BindView(R.id.rvNecesidades) RecyclerView rvNecesidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publicacion_details);
+        ButterKnife.bind(this);
 
-        preferences = new Preferences(this);
         presenter = new DetallePublicacionPresenter(this, new DetallePublicacionInteractor(preferences));
+        preferences = new Preferences(this);
 
-        refresh = findViewById(R.id.refresh);
-//        btnShare = findViewById(R.id.btnShare);
-
-        tvDescripcion = findViewById(R.id.tvDescripcion);
-
-        slider = findViewById(R.id.viewPager);
         sliderAdapter = new SliderAdapter(this,new ArrayList<String>());
         slider.setAdapter(sliderAdapter);
 
-        rvNecesidades = findViewById(R.id.rvNecesidades);
         rvNecesidades.setLayoutManager(new LinearLayoutManager(this));
         rvNecesidades.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
         necesidadAdapter = new ListaNecesidadAdapter(this);
@@ -68,7 +62,6 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
         extras = getIntent().getExtras();
         if(extras!=null && extras.getString(EXTRA_PUBLICACION_ID)!=null){
             id = extras.getString(EXTRA_PUBLICACION_ID);
-            Log.i("PUBLICACION_ID",id);
         }
 
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,35 +77,23 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
     @Override
     public void mostrarProgress() {
         refresh.setRefreshing(true);
-//        btnShare.setVisibility(View.GONE);
     }
 
     @Override
     public void ocultarProgress() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refresh.setRefreshing(false);
-//                btnShare.setVisibility(View.VISIBLE);
-            }
-        });
+        refresh.setRefreshing(false);
     }
 
     @Override
     public void mostrarDetalle(final PublicacionQuery.Publicacion publicacion) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                setTitle(publicacion.titulo());
-                tvDescripcion.setText(publicacion.descripcion());
-                List<String> imgUrls = new ArrayList<>();
-                    for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
-                        imgUrls.add(imagen.url());
-                    }
-                sliderAdapter.setImages(imgUrls);
-                necesidadAdapter.setDataset(publicacion.necesidades());
+        setTitle(publicacion.titulo());
+        tvDescripcion.setText(publicacion.descripcion());
+        List<String> imgUrls = new ArrayList<>();
+            for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
+                imgUrls.add(imagen.url());
             }
-        });
+        sliderAdapter.setImages(imgUrls);
+        necesidadAdapter.setDataset(publicacion.necesidades());
     }
 
     @Override
