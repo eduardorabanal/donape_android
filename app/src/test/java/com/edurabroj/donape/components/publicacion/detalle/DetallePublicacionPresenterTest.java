@@ -1,8 +1,5 @@
 package com.edurabroj.donape.components.publicacion.detalle;
 
-
-import com.edurabroj.donape.shared.entidades.Necesidad;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -42,19 +39,6 @@ public class DetallePublicacionPresenterTest {
         presenter.onRefresh("1");
         Mockito.verify(interactor).loadDetalle("1",presenter);
     }
-
-//    @Test
-//    public void cuandoRecibeDetalleOcultaProgress() {
-//        presenter.onDetalleLoadSuccess(new Necesidad());
-//        Mockito.verify(view).ocultarProgress();
-//    }
-
-//    @Test
-//    public void cuandoRecibeDetalleLoMuestra() {
-//        Necesidad necesidad = new Necesidad();
-//        presenter.onDetalleLoadSuccess(necesidad);
-//        Mockito.verify(view).mostrarDetalle(necesidad);
-//    }
 
     @Test
     public void cuandoRecibeErrorServidorOcultaProgress() {
