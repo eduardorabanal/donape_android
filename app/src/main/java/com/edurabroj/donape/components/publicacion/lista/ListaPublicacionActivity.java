@@ -9,32 +9,34 @@ import android.view.animation.AnimationUtils;
 
 import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
-import com.edurabroj.donape.shared.entidades.Necesidad;
 import com.edurabroj.donape.shared.preferences.IPreferences;
 import com.edurabroj.donape.shared.preferences.Preferences;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
 public class ListaPublicacionActivity extends AppCompatActivity implements ListaPublicacionContract.View{
-    SwipeRefreshLayout refreshLayout;
-    RecyclerView rvList;
-    ListaPublicacionAdapter adapter;
-
     ListaPublicacionContract.Presenter presenter;
+
+    @BindView(R.id.refresh) SwipeRefreshLayout refreshLayout;
+    @BindView(R.id.rvList) RecyclerView rvList;
+
+    ListaPublicacionAdapter adapter;
     IPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_publicacion);
+        ButterKnife.bind(this);
 
         preferences = new Preferences(this);
         presenter = new ListaPublicacionPresenter(this, new ListaPublicacionInteractor(preferences));
 
-        refreshLayout = findViewById(R.id.refresh);
-        rvList = findViewById(R.id.rvList);
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
         adapter = new ListaPublicacionAdapter(this);
@@ -62,13 +64,8 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
 
     @Override
     public void llenarLista(final List<PublicacionesQuery.Publicacione> list) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setDataset(list);
-                rvList.scheduleLayoutAnimation();
-            }
-        });
+        adapter.setDataset(list);
+        rvList.scheduleLayoutAnimation();
     }
 
     @Override
