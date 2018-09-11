@@ -1,10 +1,6 @@
 package com.edurabroj.donape.components.publicacion.lista;
 
 import com.edurabroj.donape.PublicacionesQuery;
-import com.edurabroj.donape.PublicacionesQuery;
-import com.edurabroj.donape.shared.entidades.Necesidad;
-
-import java.util.List;
 
 public class ListaPublicacionPresenter implements ListaPublicacionContract.Presenter, ListaPublicacionContract.Interactor.OnLoadListaFinishedListener {
     ListaPublicacionContract.View view;

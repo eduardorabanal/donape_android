@@ -8,20 +8,10 @@ import com.apollographql.apollo.ApolloCallback;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.exception.ApolloException;
 import com.edurabroj.donape.PublicacionQuery;
-import com.edurabroj.donape.shared.entidades.Necesidad;
 import com.edurabroj.donape.shared.graphql.ClienteApolloProvider;
 import com.edurabroj.donape.shared.preferences.IPreferences;
-import com.edurabroj.donape.shared.servicio.IService;
-import com.edurabroj.donape.shared.servicio.ServiceProvider;
 
 import javax.annotation.Nonnull;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_KEY;
-import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_PREV;
 
 public class DetallePublicacionInteractor implements DetallePublicacionContract.Interactor {
     private IPreferences preferences;
