@@ -8,7 +8,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface IService {
-    @POST("auth/login")
+    @POST("login")
     @FormUrlEncoded
     Call<LoginRespuesta> Login(@Field("email") String email, @Field("password") String password);
 }

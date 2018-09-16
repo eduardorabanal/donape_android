@@ -1,14 +1,19 @@
 package com.edurabroj.donape.components.publicacion.lista;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 
 import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActivity;
 import com.edurabroj.donape.shared.preferences.IPreferences;
 import com.edurabroj.donape.shared.preferences.Preferences;
 
@@ -27,6 +32,24 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
 
     ListaPublicacionAdapter adapter;
     IPreferences preferences;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.lista_publicaciones_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btnMisDonaciones:
+                startActivity(new Intent(this, MisDonacionesActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

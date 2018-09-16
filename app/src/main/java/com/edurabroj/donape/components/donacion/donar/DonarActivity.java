@@ -34,7 +34,7 @@ public class DonarActivity extends AppCompatActivity implements DonarContract.Vi
         setContentView(R.layout.activity_donar);
         ButterKnife.bind(this);
 
-        presenter = new DonarPresenter(this);
+        presenter = new DonarPresenter(this,this);
 
         extras = getIntent().getExtras();
         if(extras!=null && extras.getString(EXTRA_NECESIDAD_ID)!=null){

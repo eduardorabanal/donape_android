@@ -1,14 +1,10 @@
 mutation donacionCreateMutation(
-  $usuario: Int!,
   $necesidad: Int!,
-  $cantidad:Float!,
-  $fecha:String!
+  $cantidad:Float!
 ){
   crearDonacion(
-      usuario:$usuario,
       necesidad:$necesidad,
-      cantidad:$cantidad,
-      fecha:$fecha
+      cantidad:$cantidad
   ){
     id,
     necesidad{

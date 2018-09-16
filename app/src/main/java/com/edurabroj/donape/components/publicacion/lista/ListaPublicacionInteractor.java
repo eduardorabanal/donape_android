@@ -22,7 +22,7 @@ public class ListaPublicacionInteractor implements ListaPublicacionContract.Inte
 
     @Override
     public void getLista(final OnLoadListaFinishedListener onLoadListaFinishedListener) {
-        ApolloClient cliente = ClienteApolloProvider.getClient();
+        ApolloClient cliente = ClienteApolloProvider.getClient(null);
         cliente.query(
                 PublicacionesQuery
                         .builder()

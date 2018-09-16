@@ -8,11 +8,11 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.edurabroj.donape.shared.data.PreferencesData.PREFERENCIAS_NAME;
 
 public class PreferencesUtils {
-    public static String getStringPreference(Activity activity, String preferenceKey){
-        return getPreferencias(activity).getString(preferenceKey,"");
+    public static String getStringPreference(Context context, String preferenceKey){
+        return getPreferencias(context).getString(preferenceKey,"");
     }
-    public static String getStringPreference(Activity activity, String preferenceKey, String defaultValue){
-        return getPreferencias(activity).getString(preferenceKey,defaultValue);
+    public static String getStringPreference(Context context, String preferenceKey, String defaultValue){
+        return getPreferencias(context).getString(preferenceKey,defaultValue);
     }
     public static void setStringPreference(Activity activity, String preferenceKey, String value){
         getPreferencias(activity)

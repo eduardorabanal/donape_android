@@ -22,12 +22,10 @@ public class DonarInteractor implements DonarContract.Interactor {
 
     @Override
     public void guardarDonacion(float cantidad, int necesidadId) {
-        ApolloClient cliente = ClienteApolloProvider.getClient();
+        ApolloClient cliente = ClienteApolloProvider.getClient(presenter.getContext());
         cliente.mutate(DonacionCreateMutation.builder()
                 .cantidad(cantidad)
                 .necesidad(necesidadId)
-                .usuario(1)
-                .fecha("2018-05-04")
                 .build()).enqueue(new ApolloCallback<>(new ApolloCall.Callback<DonacionCreateMutation.Data>() {
             @Override
             public void onResponse(@Nonnull Response<DonacionCreateMutation.Data> response) {

@@ -31,7 +31,8 @@
                 android:value=".components.publicacion.lista.ListaPublicacionActivity" />
         </activity>
         <activity android:name=".components.donacion.donar.DonarActivity" />
-        <activity android:name=".components.donacion.donar.GraciasActivity"/>
+        <activity android:name=".components.donacion.donar.GraciasActivity" />
+        <activity android:name=".components.donacion.mis_donaciones.MisDonacionesActivity"></activity>
     </application>
 
 </manifest>

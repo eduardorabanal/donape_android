@@ -4,6 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="activity_margin">16dp</dimen>
     <dimen name="card_margin">16dp</dimen>
+    <dimen name="espacio_entre_palabras">5dp</dimen>
+    <dimen name="tamanio_item_lista_titulo">16sp</dimen>
     <dimen name="login_form_horizontal_margin">30dp</dimen>
     <integer name="animation_duration_fast">500</integer>
     <integer name="animation_duration_medium">700</integer>

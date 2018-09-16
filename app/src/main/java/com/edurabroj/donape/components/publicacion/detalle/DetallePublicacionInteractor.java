@@ -22,7 +22,7 @@ public class DetallePublicacionInteractor implements DetallePublicacionContract.
 
     @Override
     public void loadDetalle(String id, final OnDetalleLoadFinished onDetalleLoadFinished) {
-        ApolloClient cliente = ClienteApolloProvider.getClient();
+        ApolloClient cliente = ClienteApolloProvider.getClient(null);
         cliente.query(
                 PublicacionQuery.builder()
                 .id(Integer.parseInt(id))

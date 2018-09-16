@@ -1,12 +1,20 @@
 package com.edurabroj.donape.components.donacion.donar;
 
+import android.content.Context;
+
 public class DonarPresenter implements DonarContract.Presenter {
     DonarContract.View view;
     DonarContract.Interactor interactor;
+    Context context;
 
-    public DonarPresenter(DonarContract.View view) {
+    public DonarPresenter(DonarContract.View view, Context context) {
         this.view = view;
         interactor = new DonarInteractor(this);
+        this.context=context;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     @Override

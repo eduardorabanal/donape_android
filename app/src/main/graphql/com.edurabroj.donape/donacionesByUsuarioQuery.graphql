@@ -1,0 +1,20 @@
+query DonacionesByUsuarioQuery{
+  donacionesByUsuario{
+    id
+    cantidad
+    fecha
+    necesidad{
+      publicacion{
+        titulo
+      }
+      articulo
+    }
+    estados{
+      nombre
+      fecha
+      imagenes{
+        url
+      }
+    }
+  }
+}

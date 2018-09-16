@@ -18,4 +18,8 @@
     </string>
     <string name="action_donate">Ayudar</string>
     <string name="title_necesidades">Se necesita:</string>
+    <string name="donacion_item_para_label">para</string>
+    <string name="donacion_item_fecha_label">Realizada el</string>
+    <string name="donacion_item_estado_label">Estado:</string>
+    <string name="donacion_item_ver_fotos_label">Ver fotos</string>
 </resources>
