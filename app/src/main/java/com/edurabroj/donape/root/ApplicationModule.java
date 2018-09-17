@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.edurabroj.donape.shared.preferences.IPreferences;
+import com.edurabroj.donape.shared.preferences.Preferences;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -28,5 +31,11 @@ public class ApplicationModule {
     @Singleton
     Handler providesHandler(){
         return new Handler(Looper.getMainLooper());
+    }
+
+    @Provides
+    @Singleton
+    IPreferences providePreferences(Context context){
+        return new Preferences(context);
     }
 }

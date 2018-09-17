@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Mis donaciones" android:id="@+id/btnMisDonaciones" />
+    <item android:title="@string/action_see_mis_donaciones" android:id="@+id/btnMisDonaciones" />
+    <item android:title="@string/action_logout" android:id="@+id/btnCerrarSesion"/>
 </menu>

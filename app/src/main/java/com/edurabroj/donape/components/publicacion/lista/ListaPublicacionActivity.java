@@ -14,14 +14,18 @@ import android.view.animation.AnimationUtils;
 import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActivity;
+import com.edurabroj.donape.components.login.LoginActivity;
+import com.edurabroj.donape.root.DonapeApplication;
 import com.edurabroj.donape.shared.preferences.IPreferences;
-import com.edurabroj.donape.shared.preferences.Preferences;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_KEY;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
 public class ListaPublicacionActivity extends AppCompatActivity implements ListaPublicacionContract.View{
@@ -31,6 +35,8 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
     @BindView(R.id.rvList) RecyclerView rvList;
 
     ListaPublicacionAdapter adapter;
+
+    @Inject
     IPreferences preferences;
 
     @Override
@@ -46,6 +52,12 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
             case R.id.btnMisDonaciones:
                 startActivity(new Intent(this, MisDonacionesActivity.class));
                 return true;
+            case R.id.btnCerrarSesion:
+                preferences.removeStringPreference(TOKEN_KEY);
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -57,7 +69,8 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
         setContentView(R.layout.activity_lista_publicacion);
         ButterKnife.bind(this);
 
-        preferences = new Preferences(this);
+        ((DonapeApplication) getApplication()).getComponent().inject(this);
+
         presenter = new ListaPublicacionPresenter(this, new ListaPublicacionInteractor(preferences));
 
         rvList.setLayoutManager(new LinearLayoutManager(this));

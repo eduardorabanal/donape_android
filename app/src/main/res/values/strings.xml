@@ -22,4 +22,6 @@
     <string name="donacion_item_fecha_label">Realizada el</string>
     <string name="donacion_item_estado_label">Estado:</string>
     <string name="donacion_item_ver_fotos_label">Ver fotos</string>
+    <string name="action_see_mis_donaciones">Mis donaciones</string>
+    <string name="action_logout">Cerrar sesión</string>
 </resources>
