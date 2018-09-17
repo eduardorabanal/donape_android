@@ -28,6 +28,9 @@ public class MisDonacionesPresenter implements MisDonaciones.Presenter{
 
     @Override
     public void solicitarMisDonaciones() {
+        if(view!=null){
+            view.mostrarLoading();
+        }
         interactor.obtenerMisDonaciones();
     }
 
