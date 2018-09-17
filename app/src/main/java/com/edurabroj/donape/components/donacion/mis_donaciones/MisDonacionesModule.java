@@ -27,8 +27,11 @@ public class MisDonacionesModule {
         return new MisDonacionesPresenter(interactor);
     }
     @Provides
-    public MisDonaciones.Interactor providesInteractor(ApolloClient client, Handler handler){
-        return new MisDonacionesInteractor(client, handler);
+    public MisDonaciones.Interactor providesInteractor(MisDonacionesRepository repository){
+        return new MisDonacionesInteractor(repository);
+    }
+    @Provides MisDonacionesRepository provideRepository(ApolloClient client, Handler handler){
+        return new MisDonacionesRepositoryGraphql(client, handler);
     }
     @Provides
     ApolloClient providesApolloClient(final Context context){

@@ -1,32 +1,22 @@
 package com.edurabroj.donape.components.donacion.mis_donaciones;
 
-import android.os.Handler;
-
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloCallback;
-import com.apollographql.apollo.ApolloClient;
-import com.apollographql.apollo.exception.ApolloException;
-import com.edurabroj.donape.DonacionesByUsuarioQuery;
 import com.edurabroj.donape.shared.entidades.Donacion;
-import com.edurabroj.donape.shared.entidades.Estado;
-import com.edurabroj.donape.shared.entidades.Imagen;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nonnull;
-
 public class MisDonacionesInteractor implements MisDonaciones.Interactor{
-    private ApolloClient client;
-    private Handler handler;
+    MisDonacionesRepository repository;
     CallbackInteractor callback;
 
-    public MisDonacionesInteractor(
-            ApolloClient client,
-            Handler handler
+    public MisDonacionesInteractor(MisDonacionesRepository repository
     ) {
-        this.client = client;
-        this.handler = handler;
+        repository.setCallback(this);
+        this.repository = repository;
+    }
+
+    @Override
+    public void obtenerMisDonaciones() {
+        repository.obtenerMisDonaciones();
     }
 
     public void setCallback(CallbackInteractor callback) {
@@ -34,52 +24,12 @@ public class MisDonacionesInteractor implements MisDonaciones.Interactor{
     }
 
     @Override
-    public void obtenerMisDonaciones() {
-        client.query(
-                DonacionesByUsuarioQuery.builder()
-                        .build())
-                .enqueue(new ApolloCallback<>(new ApolloCall.Callback<DonacionesByUsuarioQuery.Data>() {
-                    @Override
-                    public void onResponse(@Nonnull com.apollographql.apollo.api.Response<DonacionesByUsuarioQuery.Data> response) {
-                        List<Donacion> lista = new ArrayList<>();
-                        for(final DonacionesByUsuarioQuery.DonacionesByUsuario donacion : response.data().donacionesByUsuario()){
-                            lista.add(new Donacion(){{
-                                setId(donacion.id());
-                                setFecha(donacion.fecha());
-                                setCantidad(donacion.cantidad());
-                                setTitulo(donacion.necesidad().publicacion().titulo());
-                                setArticulo(donacion.necesidad().articulo());
-                                List<Estado> estados =  new ArrayList<>();
-                                for(final DonacionesByUsuarioQuery.Estado estado : donacion.estados() ){
-                                    final List<Imagen> imagenes = new ArrayList<>();
-                                    for(final DonacionesByUsuarioQuery.Imagene img : estado.imagenes()){
-                                        imagenes.add(new Imagen(){{
-                                            setUrl(img.url());
-                                        }});
-                                    }
-                                    estados.add(new Estado(){{
-                                        setImagenes(imagenes);
-                                        setFecha(estado.fecha());
-                                        setNombre(estado.nombre());
-                                    }});
-                                }
-                                setEstados(estados);
-                                if(estados.size()>0){
-                                    setEstado(estados.get(0).getNombre());
-                                }
-                            }});
-                        }
-                        if(callback!=null){
-                            callback.onMisDonacionesSuccess(lista);
-                        }
-                    }
+    public void onMisDonacionesSuccess(List<Donacion> donaciones) {
+        callback.onMisDonacionesSuccess(donaciones);
+    }
 
-                    @Override
-                    public void onFailure(@Nonnull ApolloException e) {
-                        if(callback!=null) {
-                            callback.onMisDonacionesError();
-                        }
-                    }
-                },handler));
+    @Override
+    public void onMisDonacionesError() {
+        callback.onMisDonacionesError();
     }
 }

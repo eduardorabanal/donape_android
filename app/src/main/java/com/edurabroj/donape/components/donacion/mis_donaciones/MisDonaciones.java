@@ -17,7 +17,7 @@ public interface MisDonaciones {
         void refrescarLista();
         void solicitarMisDonaciones();
     }
-    interface Interactor {
+    interface Interactor extends MisDonacionesRepository.CallbackRepository{
         void obtenerMisDonaciones();
         void setCallback(Interactor.CallbackInteractor callback);
 
