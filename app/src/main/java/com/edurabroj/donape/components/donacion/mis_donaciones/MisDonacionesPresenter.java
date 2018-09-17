@@ -1,48 +1,49 @@
 package com.edurabroj.donape.components.donacion.mis_donaciones;
 
-import android.content.Context;
-
 import com.edurabroj.donape.shared.entidades.Donacion;
 
 import java.util.List;
 
-public class MisDonacionesPresenter implements MisDonaciones.Presenter, MisDonaciones.Interactor.CallbackMisDonaciones{
-    MisDonaciones.View view;
-    MisDonaciones.Interactor interactor;
-    Context context;
+import javax.annotation.Nullable;
 
-    public MisDonacionesPresenter(MisDonaciones.View view, Context context) {
+public class MisDonacionesPresenter implements MisDonaciones.Presenter{
+    @Nullable
+    private MisDonaciones.View view;
+    private MisDonaciones.Interactor interactor;
+
+    public MisDonacionesPresenter(MisDonaciones.Interactor interactor) {
+        interactor.setCallback(this);
+        this.interactor = interactor;
+    }
+
+    @Override
+    public void setView(MisDonaciones.View view) {
         this.view = view;
-        interactor = new MisDonacionesInteractor(this);
-        this.context = context;
     }
 
     @Override
-    public void solicitarDonaciones() {
-        view.mostrarLoading();
-        interactor.obtenerDonaciones(1,this);
+    public void refrescarLista() {
+        solicitarMisDonaciones();
     }
 
     @Override
-    public Context getContext() {
-        return context;
+    public void solicitarMisDonaciones() {
+        interactor.obtenerMisDonaciones();
     }
 
     @Override
-    public void onDonacionesSuccess(List<Donacion> donaciones) {
-        view.ocultarLoading();
-        view.mostrarDonaciones(donaciones);
+    public void onMisDonacionesSuccess(List<Donacion> donaciones) {
+        if(view!=null){
+            view.ocultarLoading();
+            view.mostrarDonaciones(donaciones);
+        }
     }
 
     @Override
-    public void onDonacionesNetworkError() {
-        view.ocultarLoading();
-        view.mostrarErrorRed();
-    }
-
-    @Override
-    public void onDonacionesServerError() {
-        view.ocultarLoading();
-        view.mostrarErrorServidor();
+    public void onMisDonacionesError() {
+        if(view!=null){
+            view.ocultarLoading();
+            view.mostrarErrorServidor();
+        }
     }
 }

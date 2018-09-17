@@ -8,9 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.AnimationUtils;
 
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.root.DonapeApplication;
 import com.edurabroj.donape.shared.entidades.Donacion;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +21,7 @@ import butterknife.ButterKnife;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
 public class MisDonacionesActivity extends AppCompatActivity implements MisDonaciones.View{
+    @Inject
     MisDonaciones.Presenter presenter;
 
     @BindView(R.id.refresh) SwipeRefreshLayout refreshLayout;
@@ -31,7 +35,7 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
         setContentView(R.layout.activity_mis_donaciones);
         ButterKnife.bind(this);
 
-        presenter = new MisDonacionesPresenter(this,this);
+        ((DonapeApplication) getApplication()).getComponent().inject(this);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
@@ -41,16 +45,16 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refrescarLista();
+                presenter.refrescarLista();
             }
         });
-
-        onCreate();
     }
 
     @Override
-    public void onCreate() {
-        presenter.solicitarDonaciones();
+    protected void onResume() {
+        super.onResume();
+        presenter.setView(this);
+        presenter.solicitarMisDonaciones();
     }
 
     @Override
@@ -76,10 +80,5 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
     @Override
     public void mostrarErrorServidor() {
         showMsg(this,"Error de servidor, inténtalo de nuevo.");
-    }
-
-    @Override
-    public void refrescarLista() {
-        presenter.solicitarDonaciones();
     }
 }

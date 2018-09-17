@@ -1,7 +1,6 @@
 package com.edurabroj.donape.components.donacion.mis_donaciones;
 
 import android.os.Handler;
-import android.os.Looper;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloCallback;
@@ -11,24 +10,32 @@ import com.edurabroj.donape.DonacionesByUsuarioQuery;
 import com.edurabroj.donape.shared.entidades.Donacion;
 import com.edurabroj.donape.shared.entidades.Estado;
 import com.edurabroj.donape.shared.entidades.Imagen;
-import com.edurabroj.donape.shared.graphql.ClienteApolloProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
-public class MisDonacionesInteractor implements MisDonaciones.Interactor {
-    MisDonaciones.Presenter presenter;
+public class MisDonacionesInteractor implements MisDonaciones.Interactor{
+    private ApolloClient client;
+    private Handler handler;
+    CallbackInteractor callback;
 
-    public MisDonacionesInteractor(MisDonaciones.Presenter presenter) {
-        this.presenter = presenter;
+    public MisDonacionesInteractor(
+            ApolloClient client,
+            Handler handler
+    ) {
+        this.client = client;
+        this.handler = handler;
+    }
+
+    public void setCallback(CallbackInteractor callback) {
+        this.callback = callback;
     }
 
     @Override
-    public void obtenerDonaciones(int usuarioId, final CallbackMisDonaciones callback) {
-        ApolloClient cliente = ClienteApolloProvider.getClient(presenter.getContext());
-        cliente.query(
+    public void obtenerMisDonaciones() {
+        client.query(
                 DonacionesByUsuarioQuery.builder()
                         .build())
                 .enqueue(new ApolloCallback<>(new ApolloCall.Callback<DonacionesByUsuarioQuery.Data>() {
@@ -62,13 +69,17 @@ public class MisDonacionesInteractor implements MisDonaciones.Interactor {
                                 }
                             }});
                         }
-                        callback.onDonacionesSuccess(lista);
+                        if(callback!=null){
+                            callback.onMisDonacionesSuccess(lista);
+                        }
                     }
 
                     @Override
                     public void onFailure(@Nonnull ApolloException e) {
-                        callback.onDonacionesServerError();
+                        if(callback!=null) {
+                            callback.onMisDonacionesError();
+                        }
                     }
-                },new Handler(Looper.getMainLooper())));
+                },handler));
     }
 }
