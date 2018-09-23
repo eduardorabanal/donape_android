@@ -4,6 +4,7 @@ import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActi
 import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesModule;
 import com.edurabroj.donape.components.login.LoginActivity;
 import com.edurabroj.donape.components.publicacion.lista.ListaPublicacionActivity;
+import com.edurabroj.donape.http.HttpModule;
 
 import javax.inject.Singleton;
 
@@ -12,7 +13,8 @@ import dagger.Component;
 @Singleton
 @Component(modules = {
         ApplicationModule.class,
-        MisDonacionesModule.class
+        MisDonacionesModule.class,
+        HttpModule.class
 })
 public interface ApplicationComponent {
     void inject(MisDonacionesActivity activity);

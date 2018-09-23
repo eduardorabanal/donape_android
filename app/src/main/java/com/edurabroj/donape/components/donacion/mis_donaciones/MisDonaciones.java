@@ -2,28 +2,23 @@ package com.edurabroj.donape.components.donacion.mis_donaciones;
 
 import com.edurabroj.donape.shared.entidades.Donacion;
 
-import java.util.List;
+import io.reactivex.Observable;
 
 public interface MisDonaciones {
     interface View{
         void mostrarLoading();
         void ocultarLoading();
-        void mostrarDonaciones(List<Donacion> donaciones);
-        void mostrarErrorRed();
+        void adjuntarDonacion(Donacion donacion);
+        void limpiarLista();
         void mostrarErrorServidor();
     }
-    interface Presenter extends Interactor.CallbackInteractor {
+    interface Presenter {
         void setView(MisDonaciones.View view);
         void refrescarLista();
         void solicitarMisDonaciones();
+        void rxUnsubscribe();
     }
-    interface Interactor extends MisDonacionesRepository.CallbackRepository{
-        void obtenerMisDonaciones();
-        void setCallback(Interactor.CallbackInteractor callback);
-
-        interface CallbackInteractor{
-            void onMisDonacionesSuccess(List<Donacion> donaciones);
-            void onMisDonacionesError();
-        }
+    interface Interactor {
+        Observable<Donacion> obtenerMisDonaciones();
     }
 }

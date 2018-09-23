@@ -24,4 +24,6 @@
     <string name="donacion_item_ver_fotos_label">Ver fotos</string>
     <string name="action_see_mis_donaciones">Mis donaciones</string>
     <string name="action_logout">Cerrar sesión</string>
+    <string name="action_refresh_after_load_error">Reintentar</string>
+    <string name="error_load_data">Error al cargar los datos</string>
 </resources>

@@ -53,6 +53,7 @@ dependencies {
     //graphql
     implementation "com.apollographql.apollo:apollo-runtime:$apolloVersion"
     implementation "com.apollographql.apollo:apollo-android-support:$apolloVersion"
+    implementation "com.apollographql.apollo:apollo-rx2-support:$apolloVersion"
 
     //okhttp
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
