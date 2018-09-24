@@ -2,7 +2,9 @@ package com.edurabroj.donape.root;
 
 import android.app.Application;
 
-import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesModule;
+import com.edurabroj.donape.components.donacion.mis_donaciones.ModuleMisDonaciones;
+import com.edurabroj.donape.components.publicacion.lista.ModuleListaPublicacion;
+import com.edurabroj.donape.http.HttpModule;
 
 
 public class DonapeApplication extends Application {
@@ -13,7 +15,9 @@ public class DonapeApplication extends Application {
         super.onCreate();
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
-                .misDonacionesModule(new MisDonacionesModule())
+                .httpModule(new HttpModule())
+                .moduleMisDonaciones(new ModuleMisDonaciones())
+                .moduleListaPublicacion(new ModuleListaPublicacion())
                 .build();
     }
 
