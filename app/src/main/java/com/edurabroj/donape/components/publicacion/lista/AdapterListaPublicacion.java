@@ -18,6 +18,9 @@ import com.edurabroj.donape.shared.entidades.Publicacion;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
@@ -58,16 +61,14 @@ public class AdapterListaPublicacion extends RecyclerView.Adapter<AdapterListaPu
     }
 
     public class VH extends RecyclerView.ViewHolder {
-        ImageView ivImg;
-        TextView tvTitulo, tvDescripcion;
-        Button btnDetalle;
+        @BindView(R.id.ivImg) ImageView ivImg;
+        @BindView(R.id.tvTitulo) TextView tvTitulo;
+        @BindView(R.id.tvDescripcion) TextView tvDescripcion;
+        @BindView(R.id.btnDetalle) Button btnDetalle;
 
         private VH(View itemView) {
             super(itemView);
-            ivImg = itemView.findViewById(R.id.ivImg);
-            tvTitulo = itemView.findViewById(R.id.tvTitulo);
-            tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
-            btnDetalle = itemView.findViewById(R.id.btnDetalle);
+            ButterKnife.bind(this, itemView);
         }
 
         public void setData(final Publicacion publicacion) {
@@ -76,7 +77,7 @@ public class AdapterListaPublicacion extends RecyclerView.Adapter<AdapterListaPu
             }
             tvTitulo.setText(publicacion.getTitulo());
             tvDescripcion.setText(publicacion.getDescripcion());
-            btnDetalle.setOnClickListener((View v) ->
+            btnDetalle.setOnClickListener(v ->
                 context.startActivity(
                     new Intent(context, DetallePublicacionActivity.class)
                         .putExtra(EXTRA_PUBLICACION_ID, publicacion.getId()+"")
