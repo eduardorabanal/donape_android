@@ -2,6 +2,7 @@ package com.edurabroj.donape.components.publicacion.lista;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,33 +12,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 
-import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActivity;
 import com.edurabroj.donape.components.login.LoginActivity;
 import com.edurabroj.donape.root.DonapeApplication;
-import com.edurabroj.donape.shared.preferences.IPreferences;
-
-import java.util.List;
+import com.edurabroj.donape.shared.entidades.Publicacion;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.edurabroj.donape.shared.data.PreferencesData.TOKEN_KEY;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
-public class ListaPublicacionActivity extends AppCompatActivity implements ListaPublicacionContract.View{
-    ListaPublicacionContract.Presenter presenter;
+public class ListaPublicacionActivity extends AppCompatActivity implements ListaPublicacion.View{
+    @Inject
+    ListaPublicacion.Presenter presenter;
 
     @BindView(R.id.refresh) SwipeRefreshLayout refreshLayout;
     @BindView(R.id.rvList) RecyclerView rvList;
 
-    ListaPublicacionAdapter adapter;
-
-    @Inject
-    IPreferences preferences;
+    AdapterListaPublicacion adapter;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,13 +45,10 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnMisDonaciones:
-                startActivity(new Intent(this, MisDonacionesActivity.class));
+                presenter.onMisDonacionesClick();
                 return true;
             case R.id.btnCerrarSesion:
-                preferences.removeStringPreference(TOKEN_KEY);
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                presenter.onLogoutClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -71,46 +63,65 @@ public class ListaPublicacionActivity extends AppCompatActivity implements Lista
 
         ((DonapeApplication) getApplication()).getComponent().inject(this);
 
-        presenter = new ListaPublicacionPresenter(this, new ListaPublicacionInteractor(preferences));
-
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
-        adapter = new ListaPublicacionAdapter(this);
+        adapter = new AdapterListaPublicacion(this);
         rvList.setAdapter(adapter);
 
-        presenter.onCreate();
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-               presenter.onRefreshLista();
-            }
-        });
+        refreshLayout.setOnRefreshListener(() -> presenter.onRefrescarLista());
     }
 
     @Override
-    public void mostrarProgress() {
+    protected void onResume() {
+        super.onResume();
+        presenter.setView(this);
+        presenter.solicitarPublicaciones();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.rxUnsubscribe();
+        adapter.clear();
+    }
+
+    @Override
+    public void mostrarLoading() {
         refreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void ocultarProgress() {
+    public void ocultarLoading() {
         refreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void llenarLista(final List<PublicacionesQuery.Publicacione> list) {
-        adapter.setDataset(list);
+    public void limpiarLista() {
+        adapter.clear();
+    }
+
+    @Override
+    public void adjuntarPublicacion(Publicacion publicacion) {
         rvList.scheduleLayoutAnimation();
+        adapter.addItem(publicacion);
     }
 
     @Override
     public void mostrarErrorRed() {
-        showMsg(this,"Error de red");
+        Snackbar.make(rvList,getString(R.string.error_load_data), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh_after_load_error), v -> presenter.onRetryLoadClick())
+                .show();
     }
 
     @Override
-    public void mostrarErrorServidor() {
-        showMsg(this,"Error de servidor");
+    public void goToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToMisDonaciones() {
+        startActivity(new Intent(this, MisDonacionesActivity.class));
     }
 }

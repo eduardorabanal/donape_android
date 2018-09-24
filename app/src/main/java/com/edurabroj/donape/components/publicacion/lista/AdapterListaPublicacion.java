@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edurabroj.donape.PublicacionesQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.publicacion.detalle.DetallePublicacionActivity;
+import com.edurabroj.donape.shared.entidades.Publicacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,26 +21,29 @@ import java.util.List;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
 
-public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicacionAdapter.VH> {
-    private List<PublicacionesQuery.Publicacione> dataset;
-    private View.OnClickListener clickListener;
+public class AdapterListaPublicacion extends RecyclerView.Adapter<AdapterListaPublicacion.VH> {
+    private List<Publicacion> dataset;
     private Context context;
 
-    public ListaPublicacionAdapter(Context context) {
+    AdapterListaPublicacion(Context context) {
         this.dataset = new ArrayList<>();
         this.context = context;
     }
 
-    public void setDataset(List<PublicacionesQuery.Publicacione> dataset) {
-        this.dataset = dataset;
-        this.notifyDataSetChanged();
+    public void addItem(Publicacion publicacion){
+        this.dataset.add(publicacion);
+        notifyItemInserted(dataset.size()-1);
+    }
+
+    public void clear(){
+        this.dataset.clear();
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_publicacion,parent,false);
-        view.setOnClickListener(clickListener);
         return new VH(view);
     }
 
@@ -67,25 +70,18 @@ public class ListaPublicacionAdapter extends RecyclerView.Adapter<ListaPublicaci
             btnDetalle = itemView.findViewById(R.id.btnDetalle);
         }
 
-        public void setData(final PublicacionesQuery.Publicacione publicacion) {
-            if(publicacion.imagenes().size()>0){
-                loadImage(context,publicacion.imagenes().get(0).url(),ivImg);
+        public void setData(final Publicacion publicacion) {
+            if(publicacion.getImagenes().size()>0){
+                loadImage(context,publicacion.getImagenes().get(0).getUrl(),ivImg);
             }
-            tvTitulo.setText(publicacion.titulo());
-            tvDescripcion.setText(publicacion.descripcion()+"");
-            btnDetalle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(
-                        new Intent(context, DetallePublicacionActivity.class)
-                            .putExtra(EXTRA_PUBLICACION_ID, publicacion.id()+"")
-                    );
-                }
-            });
+            tvTitulo.setText(publicacion.getTitulo());
+            tvDescripcion.setText(publicacion.getDescripcion());
+            btnDetalle.setOnClickListener((View v) ->
+                context.startActivity(
+                    new Intent(context, DetallePublicacionActivity.class)
+                        .putExtra(EXTRA_PUBLICACION_ID, publicacion.getId()+"")
+                )
+            );
         }
-    }
-
-    public void setOnClickListener(View.OnClickListener clickListener){
-        this.clickListener = clickListener;
     }
 }

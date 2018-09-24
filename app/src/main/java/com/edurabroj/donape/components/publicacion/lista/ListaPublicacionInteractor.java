@@ -1,42 +1,29 @@
 package com.edurabroj.donape.components.publicacion.lista;
 
-import android.os.Handler;
-import android.os.Looper;
+import com.edurabroj.donape.shared.entidades.Publicacion;
+import com.edurabroj.donape.components.session.RepoSession;
 
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloCallback;
-import com.apollographql.apollo.ApolloClient;
-import com.apollographql.apollo.exception.ApolloException;
-import com.edurabroj.donape.PublicacionesQuery;
-import com.edurabroj.donape.shared.graphql.ClienteApolloProvider;
-import com.edurabroj.donape.shared.preferences.IPreferences;
+import io.reactivex.Observable;
 
-import javax.annotation.Nonnull;
+public class ListaPublicacionInteractor implements ListaPublicacion.Interactor {
+    private RepoListaPublicacion repoListaPublicacion;
+    private RepoSession repoSession;
 
-public class ListaPublicacionInteractor implements ListaPublicacionContract.Interactor {
-    IPreferences preferences;
-
-    public ListaPublicacionInteractor(IPreferences preferences) {
-        this.preferences = preferences;
+    public ListaPublicacionInteractor(
+            RepoListaPublicacion repoListaPublicacion,
+            RepoSession repoSession
+    ) {
+        this.repoListaPublicacion = repoListaPublicacion;
+        this.repoSession = repoSession;
     }
 
     @Override
-    public void getLista(final OnLoadListaFinishedListener onLoadListaFinishedListener) {
-        ApolloClient cliente = ClienteApolloProvider.getClient(null);
-        cliente.query(
-                PublicacionesQuery
-                        .builder()
-                        .build()
-        ).enqueue(new ApolloCallback<>(new ApolloCall.Callback<PublicacionesQuery.Data>() {
-            @Override
-            public void onResponse(@Nonnull com.apollographql.apollo.api.Response<PublicacionesQuery.Data> response) {
-                onLoadListaFinishedListener.onLoadListaSuccess(response.data());
-            }
+    public Observable<Publicacion> obtenerPublicaciones() {
+        return repoListaPublicacion.getPublicacionesData();
+    }
 
-            @Override
-            public void onFailure(@Nonnull ApolloException e) {
-                onLoadListaFinishedListener.onLoadListaErrorServidor();
-            }
-        },new Handler(Looper.getMainLooper())));
+    @Override
+    public void logout() {
+        repoSession.doLogout();
     }
 }
