@@ -1,7 +1,6 @@
 package com.edurabroj.donape.components.donacion.mis_donaciones;
 
 import android.os.Bundle;
-import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,22 +12,13 @@ import com.edurabroj.donape.R;
 import com.edurabroj.donape.root.DonapeApplication;
 import com.edurabroj.donape.shared.entidades.Donacion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
-import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MisDonacionesActivity extends AppCompatActivity implements MisDonaciones.View{
 //    private final String TAG = MisDonacionesActivity.class.getName();
-
-    @BindString(R.string.error_load_data)
-    String errorLoadData;
-    @BindString(R.string.action_refresh_after_load_error)
-    String retryLoad;
 
     @Inject
     MisDonaciones.Presenter presenter;
@@ -36,9 +26,7 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
     @BindView(R.id.refresh) SwipeRefreshLayout refreshLayout;
     @BindView(R.id.rvList) RecyclerView rvList;
 
-    MisDonacionesAdapter adapter;
-
-    List<Donacion> dataset = new ArrayList<>();
+    AdapterMisDonaciones adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +38,7 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
-        adapter = new MisDonacionesAdapter(dataset);
+        adapter = new AdapterMisDonaciones();
         rvList.setAdapter(adapter);
 
         refreshLayout.setOnRefreshListener(() -> presenter.refrescarLista());
@@ -67,8 +55,7 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
     protected void onStop() {
         super.onStop();
         presenter.rxUnsubscribe();
-        dataset.clear();
-        adapter.notifyDataSetChanged();
+        adapter.clear();
     }
 
     @Override
@@ -83,20 +70,19 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
 
     @Override
     public void adjuntarDonacion(Donacion donacion) {
-        dataset.add(donacion);
-        adapter.notifyItemInserted(dataset.size()-1);
+        rvList.scheduleLayoutAnimation();
+        adapter.addItem(donacion);
     }
 
     @Override
     public void limpiarLista() {
-        dataset.clear();
-        adapter.notifyDataSetChanged();
+        adapter.clear();
     }
 
     @Override
     public void mostrarErrorServidor() {
-        Snackbar.make(rvList,errorLoadData, BaseTransientBottomBar.LENGTH_INDEFINITE)
-                .setAction(retryLoad, v -> presenter.refrescarLista())
+        Snackbar.make(rvList,getString(R.string.error_load_data), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh_after_load_error), v -> presenter.refrescarLista())
                 .show();
     }
 }

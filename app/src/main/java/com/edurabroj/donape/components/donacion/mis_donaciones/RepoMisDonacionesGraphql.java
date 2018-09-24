@@ -10,10 +10,10 @@ import com.edurabroj.donape.shared.entidades.Donacion;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
-public class MisDonacionesRepositoryGraphql implements MisDonacionesRepository {
+public class RepoMisDonacionesGraphql implements RepoMisDonaciones {
     private ApolloClient client;
 
-    MisDonacionesRepositoryGraphql(ApolloClient client) {
+    RepoMisDonacionesGraphql(ApolloClient client) {
         this.client = client;
     }
 

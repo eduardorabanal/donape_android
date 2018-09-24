@@ -23,8 +23,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
-
 public class ListaPublicacionActivity extends AppCompatActivity implements ListaPublicacion.View{
     @Inject
     ListaPublicacion.Presenter presenter;

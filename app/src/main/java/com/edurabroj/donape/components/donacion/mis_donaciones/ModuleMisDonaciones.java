@@ -8,16 +8,17 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class MisDonacionesModule {
+public class ModuleMisDonaciones {
     @Provides
     public MisDonaciones.Presenter providesPresenter(MisDonaciones.Interactor interactor){
         return new MisDonacionesPresenter(interactor);
     }
     @Provides
-    public MisDonaciones.Interactor providesInteractor(MisDonacionesRepository repository){
+    public MisDonaciones.Interactor providesInteractor(RepoMisDonaciones repository){
         return new MisDonacionesInteractor(repository);
     }
-    @Provides MisDonacionesRepository provideRepository(ApolloClient client, Handler handler){
-        return new MisDonacionesRepositoryGraphql(client);
+    @Provides
+    RepoMisDonaciones provideRepository(ApolloClient client, Handler handler){
+        return new RepoMisDonacionesGraphql(client);
     }
 }

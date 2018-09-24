@@ -5,9 +5,9 @@ import com.edurabroj.donape.shared.entidades.Donacion;
 import io.reactivex.Observable;
 
 public class MisDonacionesInteractor implements MisDonaciones.Interactor{
-    private MisDonacionesRepository repository;
+    private RepoMisDonaciones repository;
 
-    MisDonacionesInteractor(MisDonacionesRepository repository) {
+    MisDonacionesInteractor(RepoMisDonaciones repository) {
         this.repository = repository;
     }
 

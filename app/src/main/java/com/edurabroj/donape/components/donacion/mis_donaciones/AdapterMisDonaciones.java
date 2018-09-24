@@ -10,16 +10,17 @@ import android.widget.TextView;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.shared.entidades.Donacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MisDonacionesAdapter extends RecyclerView.Adapter<MisDonacionesAdapter.VH> {
+public class AdapterMisDonaciones extends RecyclerView.Adapter<AdapterMisDonaciones.VH> {
     private List<Donacion> dataset;
 
-    MisDonacionesAdapter(List<Donacion> dataset) {
-        this.dataset = dataset;
+    AdapterMisDonaciones() {
+        dataset=new ArrayList<>();
     }
 
     @NonNull
@@ -50,5 +51,15 @@ public class MisDonacionesAdapter extends RecyclerView.Adapter<MisDonacionesAdap
         public void setData(final Donacion donacion) {
             tvTitulo.setText(donacion.getCantidad() + " " + donacion.getArticulo() + " para " + donacion.getTitulo());
         }
+    }
+
+    public void addItem(Donacion donacion){
+        this.dataset.add(donacion);
+        notifyItemInserted(dataset.size()-1);
+    }
+
+    public void clear(){
+        this.dataset.clear();
+        notifyDataSetChanged();
     }
 }

@@ -5,6 +5,6 @@ import com.edurabroj.donape.shared.entidades.Donacion;
 
 import io.reactivex.Observable;
 
-public interface MisDonacionesRepository {
+public interface RepoMisDonaciones {
     Observable<Donacion> getMyDonationsData();
 }
