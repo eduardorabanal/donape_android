@@ -1,21 +1,17 @@
 package com.edurabroj.donape.components.donacion.mis_donaciones;
 
 import com.edurabroj.donape.shared.entidades.Donacion;
+import com.edurabroj.donape.testRules.FakeSchedulerRule;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.schedulers.Schedulers;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -24,6 +20,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class MisDonacionesPresenterTest {
+    @Rule
+    public final FakeSchedulerRule fakeSchedulerRule = new FakeSchedulerRule();
+
     private MisDonacionesPresenter presenter;
     private MisDonaciones.Interactor interactor;
     private MisDonaciones.View view;
@@ -36,11 +35,6 @@ public class MisDonacionesPresenterTest {
             setTitulo("Ayuda2");
         }});
     }};
-
-    @BeforeClass
-    public static void setupClass() {
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler(__ -> Schedulers.trampoline());
-    }
 
     @Before
     public void setUp() {
