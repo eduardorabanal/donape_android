@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.edurabroj.donape.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.edurabroj.donape.shared.utils.GuiUtils.loadImage;
@@ -19,10 +20,15 @@ public class SliderAdapter extends PagerAdapter {
     List<String> images;
     LayoutInflater inflater;
 
-    public SliderAdapter(Context context, List<String> images) {
+    public SliderAdapter(Context context) {
         this.context = context;
-        this.images = images;
+        this.images = new ArrayList<>();
         inflater = LayoutInflater.from(context);
+    }
+
+    public void clear() {
+        this.images.clear();
+        this.notifyDataSetChanged();
     }
 
     @Override

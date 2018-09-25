@@ -8,6 +8,7 @@ public class Publicacion {
     private String titulo;
     private String descripcion;
     private List<Imagen> imagenes;
+    private List<Necesidad> necesidades;
 
     public Publicacion() {
         imagenes = new ArrayList<>();
@@ -43,5 +44,13 @@ public class Publicacion {
 
     public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public List<Necesidad> getNecesidades() {
+        return necesidades;
+    }
+
+    public void setNecesidades(List<Necesidad> necesidades) {
+        this.necesidades = necesidades;
     }
 }

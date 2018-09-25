@@ -3,6 +3,7 @@ package com.edurabroj.donape.root;
 import android.app.Application;
 
 import com.edurabroj.donape.components.donacion.mis_donaciones.ModuleMisDonaciones;
+import com.edurabroj.donape.components.publicacion.detalle.ModuleDetallePublicacion;
 import com.edurabroj.donape.components.publicacion.lista.ModuleListaPublicacion;
 import com.edurabroj.donape.http.HttpModule;
 
@@ -18,6 +19,7 @@ public class DonapeApplication extends Application {
                 .httpModule(new HttpModule())
                 .moduleMisDonaciones(new ModuleMisDonaciones())
                 .moduleListaPublicacion(new ModuleListaPublicacion())
+                .moduleDetallePublicacion(new ModuleDetallePublicacion())
                 .build();
     }
 

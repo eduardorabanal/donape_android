@@ -1,6 +1,7 @@
 package com.edurabroj.donape.components.publicacion.detalle;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,14 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.edurabroj.donape.PublicacionQuery;
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.root.DonapeApplication;
 import com.edurabroj.donape.shared.adaptadores.SliderAdapter;
-import com.edurabroj.donape.shared.preferences.IPreferences;
-import com.edurabroj.donape.shared.preferences.Preferences;
+import com.edurabroj.donape.shared.entidades.Imagen;
+import com.edurabroj.donape.shared.entidades.Publicacion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +27,12 @@ import butterknife.ButterKnife;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_PUBLICACION_ID;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
-public class DetallePublicacionActivity extends AppCompatActivity implements DetallePublicacionContract.View {
-    DetallePublicacionContract.Presenter presenter;
+public class DetallePublicacionActivity extends AppCompatActivity implements DetallePublicacion.View {
+    @Inject
+    DetallePublicacion.Presenter presenter;
 
-    IPreferences preferences;
-    String id;
-
-    Bundle extras;
     SliderAdapter sliderAdapter;
-    ListaNecesidadAdapter necesidadAdapter;
+    AdapterListaNecesidad necesidadAdapter;
 
     @BindView(R.id.refresh) SwipeRefreshLayout refresh;
     @BindView(R.id.tvDescripcion) TextView tvDescripcion;
@@ -45,62 +45,71 @@ public class DetallePublicacionActivity extends AppCompatActivity implements Det
         setContentView(R.layout.activity_publicacion_details);
         ButterKnife.bind(this);
 
-        presenter = new DetallePublicacionPresenter(this, new DetallePublicacionInteractor(preferences));
-        preferences = new Preferences(this);
+        ((DonapeApplication) getApplication()).getComponent().inject(this);
 
-        sliderAdapter = new SliderAdapter(this,new ArrayList<String>());
+        sliderAdapter = new SliderAdapter(this);
         slider.setAdapter(sliderAdapter);
 
         rvNecesidades.setLayoutManager(new LinearLayoutManager(this));
         rvNecesidades.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
-        necesidadAdapter = new ListaNecesidadAdapter(this);
+        necesidadAdapter = new AdapterListaNecesidad(this);
         rvNecesidades.setAdapter(necesidadAdapter);
 
-        extras = getIntent().getExtras();
-        if(extras!=null && extras.getString(EXTRA_PUBLICACION_ID)!=null){
-            id = extras.getString(EXTRA_PUBLICACION_ID);
-        }
-
-        refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.onRefresh(id);
-            }
-        });
-
-        presenter.onCreate(id);
+        refresh.setOnRefreshListener(() -> presenter.onRefresh());
     }
 
     @Override
-    public void mostrarProgress() {
+    protected void onResume() {
+        super.onResume();
+        presenter.setView(this);
+        presenter.solicitarDetalle();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.rxUnsubscribe();
+        sliderAdapter.clear();
+        necesidadAdapter.clear();
+    }
+
+    @Override
+    public void mostrarLoading() {
         refresh.setRefreshing(true);
     }
 
     @Override
-    public void ocultarProgress() {
+    public void ocultarLoading() {
         refresh.setRefreshing(false);
     }
 
     @Override
-    public void mostrarDetalle(final PublicacionQuery.Publicacion publicacion) {
-        setTitle(publicacion.titulo());
-        tvDescripcion.setText(publicacion.descripcion());
+    public void mostrarDetalle(final Publicacion publicacion) {
+        setTitle(publicacion.getTitulo());
+        tvDescripcion.setText(publicacion.getDescripcion());
         List<String> imgUrls = new ArrayList<>();
-            for (PublicacionQuery.Imagene imagen : publicacion.imagenes()){
-                imgUrls.add(imagen.url());
+            for (Imagen imagen : publicacion.getImagenes()){
+                imgUrls.add(imagen.getUrl());
             }
         sliderAdapter.setImages(imgUrls);
-        necesidadAdapter.setDataset(publicacion.necesidades());
+        necesidadAdapter.setDataset(publicacion.getNecesidades());
     }
 
     @Override
-    public void mostrarErrorServidor() {
-        showMsg(this,"Error de servidor");
+    public void mostrarError() {
+        Snackbar.make(refresh,getString(R.string.error_load_data), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.action_refresh_after_load_error), v -> presenter.onRetryLoadClick())
+                .show();
     }
 
     @Override
-    public void mostrarErrorRed() {
-        showMsg(this,"Error de red");
+    public String getPublicacionId() {
+        Bundle extras = getIntent().getExtras();
+        String id=null;
+        if(extras!=null){
+            id = extras.getString(EXTRA_PUBLICACION_ID);
+        }
+        return id;
     }
 
     @Override

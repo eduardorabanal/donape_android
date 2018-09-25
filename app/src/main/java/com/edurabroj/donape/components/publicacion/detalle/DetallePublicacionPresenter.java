@@ -1,42 +1,77 @@
 package com.edurabroj.donape.components.publicacion.detalle;
-import com.edurabroj.donape.PublicacionQuery;
 
-class DetallePublicacionPresenter implements DetallePublicacionContract.Presenter, DetallePublicacionContract.Interactor.OnDetalleLoadFinished {
-    DetallePublicacionContract.View view;
-    DetallePublicacionContract.Interactor interactor;
+import com.edurabroj.donape.shared.entidades.Publicacion;
 
-    DetallePublicacionPresenter(DetallePublicacionContract.View view, DetallePublicacionContract.Interactor interactor) {
-        this.view = view;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
+class DetallePublicacionPresenter implements DetallePublicacion.Presenter {
+    private DetallePublicacion.View view;
+    private DetallePublicacion.Interactor interactor;
+
+    private Disposable subscription;
+
+    DetallePublicacionPresenter(DetallePublicacion.Interactor interactor) {
         this.interactor = interactor;
     }
 
     @Override
-    public void onCreate(String id) {
-        view.mostrarProgress();
-        interactor.loadDetalle(id,this);
+    public void setView(DetallePublicacion.View view) {
+        this.view = view;
     }
 
     @Override
-    public void onRefresh(String id) {
-        view.mostrarProgress();
-        interactor.loadDetalle(id,this);
+    public void rxUnsubscribe() {
+        if(subscription !=null && !subscription.isDisposed()){
+            subscription.dispose();
+        }
     }
 
     @Override
-    public void onDetalleLoadSuccess(PublicacionQuery.Data data) {
-        view.ocultarProgress();
-        view.mostrarDetalle(data.publicacion());
+    public void onRefresh() {
+        solicitarDetalle();
     }
 
     @Override
-    public void onDetalleLoadErrorServidor() {
-        view.ocultarProgress();
-        view.mostrarErrorServidor();
+    public void onRetryLoadClick() {
+        solicitarDetalle();
     }
 
     @Override
-    public void onDetalleLoadErrorRed() {
-        view.ocultarProgress();
-        view.mostrarErrorRed();
+    public void solicitarDetalle() {
+        String id = null;
+        if(view!=null){
+            view.mostrarLoading();
+            id = view.getPublicacionId();
+        }
+        subscription = interactor.getDetallePublicacionData(Integer.parseInt(id))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<Publicacion>(){
+                            @Override
+                            public void onNext(Publicacion publicacion) {
+                                if(view!=null){
+                                    view.mostrarDetalle(publicacion);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                                if(view!=null){
+                                    view.ocultarLoading();
+                                    view.mostrarError();
+                                }
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                if(view!=null){
+                                    view.ocultarLoading();
+                                }
+                            }
+                        });
     }
 }

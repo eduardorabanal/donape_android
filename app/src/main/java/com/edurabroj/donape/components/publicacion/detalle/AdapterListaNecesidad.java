@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.edurabroj.donape.PublicacionQuery;
 import com.edurabroj.donape.R;
 import com.edurabroj.donape.components.donacion.donar.DonarActivity;
+import com.edurabroj.donape.shared.entidades.Necesidad;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +20,23 @@ import java.util.List;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ARTICULO;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
 
-public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAdapter.VH> {
-    private List<PublicacionQuery.Necesidade> dataset;
+public class AdapterListaNecesidad extends RecyclerView.Adapter<AdapterListaNecesidad.VH> {
+    private List<Necesidad> dataset;
     private View.OnClickListener clickListener;
     private Context context;
 
-    public ListaNecesidadAdapter(Context context) {
+    public AdapterListaNecesidad(Context context) {
         this.dataset = new ArrayList<>();
         this.context = context;
     }
 
-    public void setDataset(List<PublicacionQuery.Necesidade> dataset) {
+    public void setDataset(List<Necesidad> dataset) {
         this.dataset = dataset;
+        this.notifyDataSetChanged();
+    }
+
+    public void clear() {
+        this.dataset.clear();
         this.notifyDataSetChanged();
     }
 
@@ -63,15 +68,15 @@ public class ListaNecesidadAdapter extends RecyclerView.Adapter<ListaNecesidadAd
             btnDonar = itemView.findViewById(R.id.btnDonar);
         }
 
-        public void setData(final PublicacionQuery.Necesidade necesidad) {
-            tvDescripcion.setText(necesidad.cantidad()+" " +necesidad.articulo());
+        public void setData(final Necesidad necesidad) {
+            tvDescripcion.setText(necesidad.getCantidad()+" " +necesidad.getArticulo());
             btnDonar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     context.startActivity(
                         new Intent(context, DonarActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.id()+"")
-                            .putExtra(EXTRA_NECESIDAD_ARTICULO, necesidad.articulo())
+                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId()+"")
+                            .putExtra(EXTRA_NECESIDAD_ARTICULO, necesidad.getArticulo())
                     );
                 }
             });
