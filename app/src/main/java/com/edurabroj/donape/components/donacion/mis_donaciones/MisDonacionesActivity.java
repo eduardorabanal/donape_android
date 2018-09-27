@@ -36,6 +36,7 @@ public class MisDonacionesActivity extends AppCompatActivity implements MisDonac
 
         ((DonapeApplication) getApplication()).getComponent().inject(this);
 
+        setTitle(R.string.mis_donaciones_title);
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setLayoutAnimation(AnimationUtils.loadLayoutAnimation(this,R.anim.layout_fall_down));
         adapter = new AdapterMisDonaciones();
