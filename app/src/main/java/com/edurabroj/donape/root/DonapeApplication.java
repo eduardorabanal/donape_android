@@ -2,6 +2,7 @@ package com.edurabroj.donape.root;
 
 import android.app.Application;
 
+import com.edurabroj.donape.components.donacion.donar.ModuleDonar;
 import com.edurabroj.donape.components.donacion.mis_donaciones.ModuleMisDonaciones;
 import com.edurabroj.donape.components.publicacion.detalle.ModuleDetallePublicacion;
 import com.edurabroj.donape.components.publicacion.lista.ModuleListaPublicacion;
@@ -20,6 +21,7 @@ public class DonapeApplication extends Application {
                 .moduleMisDonaciones(new ModuleMisDonaciones())
                 .moduleListaPublicacion(new ModuleListaPublicacion())
                 .moduleDetallePublicacion(new ModuleDetallePublicacion())
+                .moduleDonar(new ModuleDonar())
                 .build();
     }
 

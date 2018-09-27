@@ -26,4 +26,10 @@
     <string name="action_logout">Cerrar sesión</string>
     <string name="action_refresh_after_load_error">Reintentar</string>
     <string name="error_load_data">Error al cargar los datos</string>
+    <string name="msg_donacion_saved">Donación guardada</string>
+    <string name="donacion_disclaimer">Ingresa la cantidad que quieres donar y serás contactado para la entrega</string>
+    <string name="donacion_cantidad_title">Quiero donar:</string>
+    <string name="ph_donacion_cantidad">1</string>
+    <string name="ph_loading">cargando...</string>
+    <string name="donacion_para_title">Donación para</string>
 </resources>

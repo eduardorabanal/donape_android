@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".components.donacion.donar.DonarActivity"
-    android:padding="@dimen/activity_margin"
-    android:orientation="vertical">
+    android:id="@+id/refresh"
+    tools:context=".components.donacion.donar.DonarActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_margin"
+        android:orientation="vertical">
         <TextView
+            android:text="@string/donacion_para_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:textSize="25sp"
+            android:text="@string/ph_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+        <TextView
+            android:layout_marginTop="@dimen/activity_margin"
             android:textSize="15sp"
-            android:text="Ingresa la cantidad que quieres donar y serás contactado para la entrega"
+            android:text="@string/donacion_disclaimer"
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -20,29 +39,30 @@
             android:layout_gravity="center">
             <TextView
                 android:textSize="20sp"
-                android:text="Quiero donar: "
+                android:text="@string/donacion_cantidad_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
                 android:id="@+id/etCantidad"
                 android:textSize="20sp"
                 android:inputType="number"
-                android:text="1"
+                android:text="@string/ph_donacion_cantidad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tvArticulo"
                 android:textSize="20sp"
-                android:text="cargando..."
+                android:text="@string/ph_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-
-        <Button
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:layout_gravity="center"
+            android:background="@color/colorAccent"
             android:id="@+id/btnDonar"
             android:layout_marginTop="@dimen/activity_margin"
-            style="@style/AppTheme.Button"
-            android:text="@string/action_donate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-</LinearLayout>
+            android:layout_height="wrap_content"
+            android:text="@string/action_donate"/>
+    </LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

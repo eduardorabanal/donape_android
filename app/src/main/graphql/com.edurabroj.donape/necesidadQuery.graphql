@@ -1,0 +1,12 @@
+query NecesidadQuery($id: Int!){
+  necesidad(id:$id){
+    id
+  	articulo
+    cantidad
+    fecha
+    publicacion{
+      titulo
+      descripcion
+    }
+  }
+}

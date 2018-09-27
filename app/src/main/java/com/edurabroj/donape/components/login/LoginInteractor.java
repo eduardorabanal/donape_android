@@ -34,6 +34,7 @@ public class LoginInteractor implements LoginContract.Interactor {
 
             @Override
             public void onFailure(Call<LoginRespuesta> call, Throwable t) {
+                t.printStackTrace();
                 onLoginFinishedListener.onFailure(t);
             }
         });

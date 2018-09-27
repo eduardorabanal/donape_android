@@ -2,31 +2,45 @@ package com.edurabroj.donape.components.donacion.donar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
+import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActivity;
+import com.edurabroj.donape.root.DonapeApplication;
+import com.edurabroj.donape.shared.entidades.Necesidad;
 
+import javax.inject.Inject;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ARTICULO;
 import static com.edurabroj.donape.shared.data.ExtrasData.EXTRA_NECESIDAD_ID;
+import static com.edurabroj.donape.shared.utils.GuiUtils.getBitmap;
 import static com.edurabroj.donape.shared.utils.GuiUtils.showMsg;
 
-public class DonarActivity extends AppCompatActivity implements DonarContract.View {
-    Bundle extras;
-    String necesidadIdString;
-    String necesidadArticulo;
+public class DonarActivity extends AppCompatActivity implements DonarMVP.View {
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refreshLayout;
 
-    @BindView(R.id.etCantidad) EditText etCantidad;
-    @BindView(R.id.tvArticulo) TextView tvArticulo;
-    @BindView(R.id.btnDonar) Button btnDonar;
+    @BindView(R.id.tvTitulo)
+    TextView tvTitulo;
 
-    DonarContract.Presenter presenter;
+    @BindView(R.id.etCantidad)
+    EditText etCantidad;
+
+    @BindView(R.id.tvArticulo)
+    TextView tvArticulo;
+
+    @BindView(R.id.btnDonar)
+    CircularProgressButton btnDonar;
+
+    @Inject
+    DonarMVP.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,32 +48,89 @@ public class DonarActivity extends AppCompatActivity implements DonarContract.Vi
         setContentView(R.layout.activity_donar);
         ButterKnife.bind(this);
 
-        presenter = new DonarPresenter(this,this);
+        ((DonapeApplication) getApplication()).getComponent().inject(this);
 
-        extras = getIntent().getExtras();
-        if(extras!=null && extras.getString(EXTRA_NECESIDAD_ID)!=null){
-            necesidadIdString = extras.getString(EXTRA_NECESIDAD_ID);
-            necesidadArticulo = extras.getString(EXTRA_NECESIDAD_ARTICULO);
+        btnDonar.setOnClickListener(v-> presenter.onGuardarDonacionClicked());
+    }
 
-            tvArticulo.setText(necesidadArticulo);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.attach(this);
+        presenter.solicitarDetalleNecesidad();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detach();
+    }
+
+    @Override
+    public int getNecesidadId() {
+        Bundle extras = getIntent().getExtras();
+        int necesidadId=0;
+        if(extras!=null){
+            necesidadId = extras.getInt(EXTRA_NECESIDAD_ID);
         }
-    }
-
-    @OnClick(R.id.btnDonar) void btnDonarClick() {
-        float cantidad = Float.parseFloat(etCantidad.getText().toString());
-        int necesidadId = Integer.parseInt(necesidadIdString);
-        presenter.guardarDonacion(cantidad,necesidadId);
+        return necesidadId;
     }
 
     @Override
-    public void mostrarDonacionCorrecta() {
-        showMsg(DonarActivity.this,"Guardado correctamente");
-        startActivity(new Intent(DonarActivity.this,GraciasActivity.class));
-        finish();
+    public float getCantidadADonar() {
+        return Float.parseFloat(etCantidad.getText().toString());
     }
 
     @Override
-    public void mostrarErrorDonacion() {
-        showMsg(DonarActivity.this,"Error al guardar los datos");
+    public void mostrarDetalleNecesidad(Necesidad necesidad) {
+        //todo: poner familia al donar
+//        tvTitulo.setText(necesidad.);
+        tvArticulo.setText(necesidad.getArticulo());
+    }
+
+    @Override
+    public void mostrarMensajeAlGuardarDonacionCorrectamente() {
+        showMsg(this,"Donación guardada");
+        btnDonar.doneLoadingAnimation(R.color.colorAccent, getBitmap(this, R.drawable.ic_check_24dp));
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(this, MisDonacionesActivity.class));
+        },2000);
+    }
+
+    @Override
+    public void mostrarErrorAlObtenerDetalleNecesidad() {
+        showMsg(this,"Error al obtener información de la necesidad");
+    }
+
+    @Override
+    public void mostrarErrorAlGuardarDonacion() {
+        btnDonar.revertAnimation();
+        showMsg(this,"Error al guardar tu donación");
+    }
+
+    @Override
+    public void mostrarLoadingDetalleNecesidad() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void ocultarLoadingDetalleNecesidad() {
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void mostrarLoadingGuardarDonacion() {
+        btnDonar.startAnimation();
+    }
+
+    @Override
+    public void ocultarLoadingGuardarDonacion() {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        btnDonar.dispose();
     }
 }

@@ -1,6 +1,9 @@
 package com.edurabroj.donape.shared.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -26,5 +29,16 @@ public class GuiUtils {
         Animation animacion = AnimationUtils.loadAnimation(context,animId);
         animacion.setDuration(duration);
         return animacion;
+    }
+
+    public static Bitmap getBitmap(Context context, int drawableRes) {
+        Drawable drawable = context.getResources().getDrawable(drawableRes);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 }

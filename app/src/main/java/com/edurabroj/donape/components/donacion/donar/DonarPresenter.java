@@ -1,34 +1,121 @@
 package com.edurabroj.donape.components.donacion.donar;
 
-import android.content.Context;
+import com.edurabroj.donape.shared.entidades.Donacion;
+import com.edurabroj.donape.shared.entidades.Necesidad;
 
-public class DonarPresenter implements DonarContract.Presenter {
-    DonarContract.View view;
-    DonarContract.Interactor interactor;
-    Context context;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
-    public DonarPresenter(DonarContract.View view, Context context) {
-        this.view = view;
-        interactor = new DonarInteractor(this);
-        this.context=context;
-    }
+public class DonarPresenter implements DonarMVP.Presenter {
+    private DonarMVP.View view;
+    private DonarMVP.Interactor interactor;
 
-    public Context getContext() {
-        return context;
-    }
+    private Disposable
+        disposableGuardarDonacion,
+        disposableDetalleNecesidad;
 
-    @Override
-    public void mostrarDonacionCorrecta() {
-        view.mostrarDonacionCorrecta();
-    }
-
-    @Override
-    public void mostrarErrorDonacion() {
-        view.mostrarErrorDonacion();
+    public DonarPresenter(DonarMVP.Interactor interactor) {
+        this.interactor = interactor;
     }
 
     @Override
-    public void guardarDonacion(float cantidad, int necesidadId) {
-        interactor.guardarDonacion(cantidad,necesidadId);
+    public void onGuardarDonacionClicked() {
+        this.guardarDonacion();
+    }
+
+    @Override
+    public void solicitarDetalleNecesidad() {
+        int necesidadId = 0;
+        if(view!=null){
+            view.mostrarLoadingDetalleNecesidad();
+            necesidadId = view.getNecesidadId();
+        }
+        disposableDetalleNecesidad = interactor.getNecesidadData(necesidadId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Necesidad>(){
+                    @Override
+                    public void onNext(Necesidad necesidad) {
+                        if(view!=null){
+                            view.mostrarDetalleNecesidad(necesidad);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if(view!=null){
+                            view.ocultarLoadingDetalleNecesidad();
+                            view.mostrarErrorAlObtenerDetalleNecesidad();
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if(view!=null){
+                            view.ocultarLoadingDetalleNecesidad();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onRetrySolicitarDetalleNecesidadClicked() {
+        this.solicitarDetalleNecesidad();
+    }
+
+    @Override
+    public void guardarDonacion() {
+        int necesidadId = 0;
+        float cantidad = 0;
+
+        if(view!=null){
+            necesidadId = view.getNecesidadId();
+            cantidad = view.getCantidadADonar();
+            view.mostrarLoadingGuardarDonacion();
+        }
+
+        disposableGuardarDonacion = interactor.saveDonacionData(necesidadId,cantidad)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Donacion>() {
+                    @Override
+                    public void onNext(Donacion donacion) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if(view!=null){
+                            view.ocultarLoadingGuardarDonacion();
+                            view.mostrarErrorAlGuardarDonacion();
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if(view!=null){
+                            view.ocultarLoadingGuardarDonacion();
+                            view.mostrarMensajeAlGuardarDonacionCorrectamente();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void attach(DonarMVP.View view) {
+        this.view=view;
+    }
+
+    @Override
+    public void detach() {
+        if(disposableGuardarDonacion !=null && !disposableGuardarDonacion.isDisposed()){
+            disposableGuardarDonacion.dispose();
+        }
+        if(disposableDetalleNecesidad !=null && !disposableDetalleNecesidad.isDisposed()){
+            disposableDetalleNecesidad.dispose();
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.edurabroj.donape.root;
 
+import com.edurabroj.donape.components.donacion.donar.DonarActivity;
+import com.edurabroj.donape.components.donacion.donar.ModuleDonar;
 import com.edurabroj.donape.components.donacion.mis_donaciones.MisDonacionesActivity;
 import com.edurabroj.donape.components.donacion.mis_donaciones.ModuleMisDonaciones;
 import com.edurabroj.donape.components.login.LoginActivity;
@@ -21,11 +23,13 @@ import dagger.Component;
         HttpModule.class,
         ModuleMisDonaciones.class,
         ModuleListaPublicacion.class,
-        ModuleDetallePublicacion.class
+        ModuleDetallePublicacion.class,
+        ModuleDonar.class
 })
 public interface ApplicationComponent {
     void inject(MisDonacionesActivity activity);
     void inject(LoginActivity activity);
     void inject(ListaPublicacionActivity activity);
     void inject(DetallePublicacionActivity activity);
+    void inject(DonarActivity activity);
 }

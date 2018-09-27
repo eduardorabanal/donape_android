@@ -70,16 +70,13 @@ public class AdapterListaNecesidad extends RecyclerView.Adapter<AdapterListaNece
 
         public void setData(final Necesidad necesidad) {
             tvDescripcion.setText(necesidad.getCantidad()+" " +necesidad.getArticulo());
-            btnDonar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    context.startActivity(
-                        new Intent(context, DonarActivity.class)
-                            .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId()+"")
-                            .putExtra(EXTRA_NECESIDAD_ARTICULO, necesidad.getArticulo())
-                    );
-                }
-            });
+            btnDonar.setOnClickListener(v ->
+                context.startActivity(
+                    new Intent(context, DonarActivity.class)
+                        .putExtra(EXTRA_NECESIDAD_ID, necesidad.getId())
+                        .putExtra(EXTRA_NECESIDAD_ARTICULO, necesidad.getArticulo())
+                    )
+            );
         }
     }
 

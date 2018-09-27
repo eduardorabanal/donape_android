@@ -1,41 +1,26 @@
 package com.edurabroj.donape.components.donacion.donar;
 
-import android.os.Handler;
-import android.os.Looper;
+import com.edurabroj.donape.shared.entidades.Donacion;
+import com.edurabroj.donape.shared.entidades.Necesidad;
 
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloCallback;
-import com.apollographql.apollo.ApolloClient;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.exception.ApolloException;
-import com.edurabroj.donape.DonacionCreateMutation;
-import com.edurabroj.donape.shared.graphql.ClienteApolloProvider;
+import io.reactivex.Observable;
 
-import javax.annotation.Nonnull;
+public class DonarInteractor implements DonarMVP.Interactor {
+    private RepoDonar repoDonar;
+    private RepoNecesidad repoNecesidad;
 
-public class DonarInteractor implements DonarContract.Interactor {
-    DonarContract.Presenter presenter;
-
-    public DonarInteractor(DonarContract.Presenter presenter) {
-        this.presenter = presenter;
+    public DonarInteractor(RepoDonar repoDonar, RepoNecesidad repoNecesidad) {
+        this.repoDonar = repoDonar;
+        this.repoNecesidad = repoNecesidad;
     }
 
     @Override
-    public void guardarDonacion(float cantidad, int necesidadId) {
-        ApolloClient cliente = ClienteApolloProvider.getClient(presenter.getContext());
-        cliente.mutate(DonacionCreateMutation.builder()
-                .cantidad(cantidad)
-                .necesidad(necesidadId)
-                .build()).enqueue(new ApolloCallback<>(new ApolloCall.Callback<DonacionCreateMutation.Data>() {
-            @Override
-            public void onResponse(@Nonnull Response<DonacionCreateMutation.Data> response) {
-                presenter.mostrarDonacionCorrecta();
-            }
+    public Observable<Necesidad> getNecesidadData(int necesidadId) {
+        return repoNecesidad.getNecesidadData(necesidadId);
+    }
 
-            @Override
-            public void onFailure(@Nonnull ApolloException e) {
-                presenter.mostrarErrorDonacion();
-            }
-        },new Handler(Looper.getMainLooper())));
+    @Override
+    public Observable<Donacion> saveDonacionData(int necesidadId, float cantidad) {
+        return repoDonar.saveDonacionData(necesidadId,cantidad);
     }
 }
