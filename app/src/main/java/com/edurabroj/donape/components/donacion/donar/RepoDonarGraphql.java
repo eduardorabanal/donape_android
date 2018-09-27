@@ -36,7 +36,7 @@ public class RepoDonarGraphql implements RepoDonar {
                             setFecha(donacionApi.fecha());
                             setCantidad(donacionApi.cantidad());
                             //todo: poner estado real
-                            //setEstado(donacionApi.);
+                            //todo: poner fecha  real
                         }})
                 );
     }
