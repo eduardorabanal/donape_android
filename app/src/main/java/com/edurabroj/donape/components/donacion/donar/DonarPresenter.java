@@ -26,6 +26,11 @@ public class DonarPresenter implements DonarMVP.Presenter {
     }
 
     @Override
+    public void onRefreshDetalleDonacion() {
+        this.solicitarDetalleNecesidad();
+    }
+
+    @Override
     public void solicitarDetalleNecesidad() {
         int necesidadId = 0;
         if(view!=null){

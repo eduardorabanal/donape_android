@@ -50,7 +50,8 @@ public class DonarActivity extends AppCompatActivity implements DonarMVP.View {
 
         ((DonapeApplication) getApplication()).getComponent().inject(this);
 
-        btnDonar.setOnClickListener(v-> presenter.onGuardarDonacionClicked());
+        btnDonar.setOnClickListener(v -> presenter.onGuardarDonacionClicked());
+        refreshLayout.setOnRefreshListener(() -> presenter.onRefreshDetalleDonacion());
     }
 
     @Override

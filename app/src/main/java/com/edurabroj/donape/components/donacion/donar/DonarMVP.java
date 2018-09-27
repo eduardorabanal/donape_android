@@ -26,7 +26,7 @@ public interface DonarMVP {
         void solicitarDetalleNecesidad();
         void onRetrySolicitarDetalleNecesidadClicked();
         void onGuardarDonacionClicked();
-        //todo: onrefreshDetalleDonacion
+        void onRefreshDetalleDonacion();
         void guardarDonacion();
     }
     interface Interactor {

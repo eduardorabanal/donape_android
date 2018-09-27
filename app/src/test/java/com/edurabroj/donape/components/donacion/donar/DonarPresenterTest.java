@@ -118,4 +118,10 @@ public class DonarPresenterTest {
         presenter.onRetrySolicitarDetalleNecesidadClicked();
         verify(presenter).solicitarDetalleNecesidad();
     }
+
+    @Test
+    public void cuandoRefrescaDetalle_solicitaDatos() {
+        presenter.onRefreshDetalleDonacion();
+        verify(presenter).solicitarDetalleNecesidad();
+    }
 }
