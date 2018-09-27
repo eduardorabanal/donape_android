@@ -42,6 +42,7 @@ public class AdapterMisDonaciones extends RecyclerView.Adapter<AdapterMisDonacio
 
     public class VH extends RecyclerView.ViewHolder {
         @BindView(R.id.tvTitulo) TextView tvTitulo;
+        @BindView(R.id.tvFecha) TextView tvFecha;
 
         private VH(View itemView) {
             super(itemView);
@@ -50,6 +51,7 @@ public class AdapterMisDonaciones extends RecyclerView.Adapter<AdapterMisDonacio
 
         public void setData(final Donacion donacion) {
             tvTitulo.setText(donacion.getCantidad() + " " + donacion.getArticulo() + " para " + donacion.getTitulo());
+            tvFecha.setText(donacion.getFecha());
         }
     }
 
