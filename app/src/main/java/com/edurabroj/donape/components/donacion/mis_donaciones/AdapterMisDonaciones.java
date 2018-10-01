@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.edurabroj.donape.R;
@@ -41,8 +42,10 @@ public class AdapterMisDonaciones extends RecyclerView.Adapter<AdapterMisDonacio
     }
 
     public class VH extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvEstado) TextView tvEstado;
         @BindView(R.id.tvTitulo) TextView tvTitulo;
         @BindView(R.id.tvFecha) TextView tvFecha;
+        @BindView(R.id.btnVerFotos) Button btnVerFotos;
 
         private VH(View itemView) {
             super(itemView);
@@ -52,6 +55,12 @@ public class AdapterMisDonaciones extends RecyclerView.Adapter<AdapterMisDonacio
         public void setData(final Donacion donacion) {
             tvTitulo.setText(donacion.getCantidad() + " " + donacion.getArticulo() + " para " + donacion.getTitulo());
             tvFecha.setText(donacion.getFecha());
+            tvEstado.setText(donacion.getEstado().getNombre());
+            if(donacion.getEstado().getImagenes().size()>0){
+                btnVerFotos.setVisibility(View.VISIBLE);
+            }else{
+                btnVerFotos.setVisibility(View.GONE);
+            }
         }
     }
 

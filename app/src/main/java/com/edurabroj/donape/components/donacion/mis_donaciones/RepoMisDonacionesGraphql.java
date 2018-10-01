@@ -6,6 +6,11 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.rx2.Rx2Apollo;
 import com.edurabroj.donape.DonacionesByUsuarioQuery;
 import com.edurabroj.donape.shared.entidades.Donacion;
+import com.edurabroj.donape.shared.entidades.Estado;
+import com.edurabroj.donape.shared.entidades.Imagen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -33,7 +38,25 @@ public class RepoMisDonacionesGraphql implements RepoMisDonaciones {
                             setCantidad(donacionApi.cantidad());
                             setTitulo(donacionApi.necesidad().publicacion().titulo());
                             setArticulo(donacionApi.necesidad().articulo());
-                            setEstado("Pendiente");
+                            List<Estado> estados = new ArrayList<>();
+                            if(donacionApi.estados()!=null){
+                                for(DonacionesByUsuarioQuery.Estado estado : donacionApi.estados() ){
+                                    estados.add(new Estado(){{
+                                        setNombre(estado.nombre());
+                                        List<Imagen> imagenes = new ArrayList<>();
+                                        if(estado.imagenes()!=null){
+                                            for(DonacionesByUsuarioQuery.Imagene imagenApi : estado.imagenes()){
+                                                imagenes.add(new Imagen(){{
+                                                    setUrl(imagenApi.url());
+                                                }});
+                                            }
+                                        }
+                                        setImagenes(imagenes);
+                                    }});
+                                }
+                            }
+                            setEstados(estados);
+                            setEstado(getEstados().size()>0 ? getEstados().get(0) : new Estado());
                         }})
                 );
     }

@@ -1,5 +1,6 @@
 package com.edurabroj.donape.shared.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Donacion {
@@ -7,9 +8,13 @@ public class Donacion {
     private double cantidad;
     private String articulo;
     private String fecha;
-    private String estado;
+    private Estado estado;
     private List<Estado> estados;
     private String titulo;
+
+    public Donacion() {
+        estados = new ArrayList<>();
+    }
 
     public String getTitulo() {
         return titulo;
@@ -40,7 +45,7 @@ public class Donacion {
         return fecha;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
@@ -61,7 +66,7 @@ public class Donacion {
         this.fecha = fecha;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
