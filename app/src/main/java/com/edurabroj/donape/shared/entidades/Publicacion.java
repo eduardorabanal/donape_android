@@ -11,6 +11,7 @@ public class Publicacion {
     private List<Necesidad> necesidades;
 
     public Publicacion() {
+        necesidades = new ArrayList<>();
         imagenes = new ArrayList<>();
     }
 

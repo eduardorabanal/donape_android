@@ -1,5 +1,6 @@
 package com.edurabroj.donape.shared.entidades;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public
@@ -9,6 +10,10 @@ class Estado{
     private String fecha;
 
     private List<Imagen> imagenes;
+
+    public Estado() {
+        imagenes = new ArrayList<>();
+    }
 
     public void setImagenes(List<Imagen> imagenes) {
         this.imagenes = imagenes;
