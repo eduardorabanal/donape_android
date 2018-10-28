@@ -9,7 +9,7 @@ query PublicacionQuery($id:Int!){
     necesidades{
       id
       articulo
-      cantidad
+      cantidad_requerida
     }
   }
 }

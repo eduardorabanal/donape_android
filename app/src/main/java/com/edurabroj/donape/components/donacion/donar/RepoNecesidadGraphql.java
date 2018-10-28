@@ -31,7 +31,7 @@ public class RepoNecesidadGraphql implements RepoNecesidad {
                 .concatMap((Function<NecesidadQuery.Necesidad, Observable<Necesidad>>) necesidadApi ->
                         Observable.just(new Necesidad(){{
                             setId(necesidadApi.id());
-                            setCantidad(necesidadApi.cantidad());
+                            setCantidad(necesidadApi.cantidad_requerida());
                             setArticulo(necesidadApi.articulo());
                         }})
                 );

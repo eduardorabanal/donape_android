@@ -2,7 +2,7 @@ query NecesidadQuery($id: Int!){
   necesidad(id:$id){
     id
   	articulo
-    cantidad
+    cantidad_requerida
     fecha
     publicacion{
       titulo

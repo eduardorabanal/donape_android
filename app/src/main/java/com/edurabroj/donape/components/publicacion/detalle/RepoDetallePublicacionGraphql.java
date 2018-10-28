@@ -48,7 +48,7 @@ public class RepoDetallePublicacionGraphql implements RepoDetallePublicacion {
                                 necesidades.add(new Necesidad(){{
                                     setId(necesidad.id());
                                     setArticulo(necesidad.articulo());
-                                    setCantidad(necesidad.cantidad());
+                                    setCantidad(necesidad.cantidad_requerida());
                                 }});
                             }
                             setImagenes(imagenes);
