@@ -34,7 +34,6 @@ public class RepoMisDonacionesGraphql implements RepoMisDonaciones {
                 .concatMap((Function<DonacionesByUsuarioQuery.DonacionesByUsuario, Observable<Donacion>>) donacionApi ->
                         Observable.just(new Donacion(){{
                             setId(donacionApi.id());
-                            setFecha(donacionApi.fecha());
                             setCantidad(donacionApi.cantidad());
                             setTitulo(donacionApi.necesidad().publicacion().titulo());
                             setArticulo(donacionApi.necesidad().articulo());
@@ -52,11 +51,13 @@ public class RepoMisDonacionesGraphql implements RepoMisDonaciones {
                                             }
                                         }
                                         setImagenes(imagenes);
+                                        setFecha(estado.fecha());
                                     }});
                                 }
                             }
                             setEstados(estados);
                             setEstado(getEstados().size()>0 ? getEstados().get(0) : new Estado());
+                            setFecha(getEstado().getFecha());
                         }})
                 );
     }
